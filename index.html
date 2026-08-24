@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>長文・知らない単語テスト｜苦手分類つき</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f5f7fb;color:#172033;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
+.app{max-width:760px;margin:auto;padding:16px}
+.card{background:#fff;border-radius:20px;padding:18px;margin:12px 0;box-shadow:0 5px 25px #0001}
+h1{margin:0 0 6px;font-size:27px}h2{margin:0 0 12px}
+.muted,.small{color:#667085;font-size:14px;line-height:1.6}
+label{display:block;font-weight:700;margin:12px 0 6px}
+input,select,textarea,button{width:100%;padding:13px;border-radius:13px;font:inherit}
+input,select,textarea{border:1px solid #d0d5dd;background:#fff}
+textarea{min-height:130px;resize:vertical}
+button{border:0;background:#172033;color:#fff;font-weight:800;margin-top:10px}
+button.secondary{background:#edf1f6;color:#172033}
+button.danger{background:#fff0f0;color:#b42318}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hidden{display:none!important}
+.dash-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.dash-head h2{font-size:21px}
+.smallBtn{width:auto;padding:8px 10px;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.statbox{background:#f4f6fa;border-radius:14px;padding:11px;text-align:center}
+.statbox span{display:block;font-size:12px;color:#667085}.statbox b{font-size:23px}
+.weak-title{font-weight:800;margin:10px 0}.weak-list{margin-top:6px}
+.weak-item{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid #eee}
+.wname{font-weight:800}.meta{text-align:right;font-size:12px;color:#667085}
+.badge{display:inline-block;padding:3px 7px;border-radius:8px;background:#ffe4e4;color:#b42318;font-weight:800}
+.warnbadge{background:#fff0c2;color:#8a5b00}.goodbadge{background:#e5f6e9;color:#137333}
+.q{font-size:38px;font-weight:850;text-align:center;margin:26px 0;word-break:break-word}
+.top{display:flex;justify-content:space-between;color:#667085;font-size:14px}
+.no{font-size:13px;color:#667085;margin-top:22px}
+.answer{font-size:22px;font-weight:750;text-align:center;margin:16px 0;padding:15px;border-radius:13px;background:#f4f6fa}
+.stat{font-size:30px;font-weight:800;text-align:center;margin:15px 0}
+.wrongitem{padding:10px 0;border-bottom:1px solid #eee}
+.word-count{font-weight:800}
+.notice{background:#f4f8ff;border-radius:14px;padding:12px;margin-top:10px;font-size:13px;line-height:1.6}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.q{font-size:33px}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="card">
+<h1>📚 長文・知らない単語テスト</h1>
+<div class="muted">長文で出会った知らない単語を追加して、自分専用の単語帳＆テストにできます。</div>
+</div>
+
+<section id="dashboard" class="card">
+<div class="dash-head">
+<h2>📊 苦手単語管理</h2>
+<button id="clearStats" class="secondary smallBtn">成績をリセット</button>
+</div>
+<div class="stats">
+<div class="statbox"><span>登録単語</span><b id="wordCount">0</b></div>
+<div class="statbox"><span>苦手</span><b id="weakCount">0</b></div>
+<div class="statbox"><span>総回答</span><b id="totalAttempts">0</b></div>
+</div>
+<div class="weak-title">苦手度ランキング</div>
+<div id="weakList" class="weak-list"><p class="small">まだテスト記録がありません。</p></div>
+<div class="grid">
+<button id="weakTest">🔴 苦手単語だけテスト</button>
+<button id="wrongHistory" class="secondary">❌ 間違えた単語だけ</button>
+</div>
+</section>
+
+<section class="card">
+<h2>➕ 単語を追加</h2>
+<div class="muted">長文で知らなかった単語を、ここに追加してください。</div>
+
+<label>英単語</label>
+<input id="newEn" placeholder="例：contribute">
+
+<label>意味</label>
+<input id="newJa" placeholder="例：貢献する">
+
+<button id="addOne">この1語を追加</button>
+
+<label>まとめて追加</label>
+<textarea id="bulk" placeholder="1行につき1語&#10;contribute | 貢献する&#10;significant | 重要な&#10;conduct | 行う、実施する"></textarea>
+<button id="addBulk" class="secondary">まとめて追加</button>
+
+<div class="grid">
+<button id="exportData" class="secondary">💾 データを書き出す</button>
+<button id="importData" class="secondary">📥 データを読み込む</button>
+</div>
+<input id="fileInput" type="file" accept=".json" class="hidden">
+<div class="notice">「データを書き出す」で、単語・成績をJSONファイルに保存できます。機種変更やSafariのデータ消去に備えて、ときどき保存しておくのがおすすめです。</div>
+</section>
+
+<section class="card">
+<h2>📝 テスト設定</h2>
+<div class="grid">
+<div><label>出題方向</label>
+<select id="direction">
+<option value="enja">英語 → 日本語</option>
+<option value="jaen">日本語 → 英語</option>
+</select></div>
+<div><label>問題数</label>
+<select id="count">
+<option>10</option><option selected>20</option><option>30</option><option>50</option><option>100</option><option value="all">登録単語すべて</option>
+</select></div>
+</div>
+<button id="start">テスト開始</button>
+</section>
+
+<section id="test" class="card hidden">
+<div class="top"><span id="prog"></span><span id="score"></span></div>
+<div class="no" id="no"></div>
+<div class="q" id="q"></div>
+<input id="user" placeholder="答えを入力（採点は自己判定）" autocomplete="off">
+<button id="show">答えを見る</button>
+<div id="panel" class="hidden">
+<div class="answer" id="ans"></div>
+<button id="yes">○ 正解</button>
+<button id="noBtn" class="secondary">× 不正解</button>
+</div>
+</section>
+
+<section id="finish" class="card hidden">
+<h2>テスト終了</h2>
+<div class="stat" id="result"></div>
+<button id="wrongOnly">間違えた単語だけ再テスト</button>
+<button id="again" class="secondary">同じ単語でもう一度</button>
+<button id="back" class="secondary">設定へ戻る</button>
+<div id="wrongList" class="wronglist"></div>
+</section>
+
+<section class="card">
+<h2>📖 登録単語一覧</h2>
+<div class="muted">不要な単語は削除できます。削除しても、他の単語の成績には影響しません。</div>
+<div id="wordList"></div>
+</section>
+
+</div>
+
+<script>
+const WORD_KEY='longtext_custom_words_v1';
+const STAT_KEY='longtext_custom_stats_v1';
+let words=load(WORD_KEY,[]);
+let stats=load(STAT_KEY,{});
+let quiz=[],i=0,score=0,wrong=[],lastPool=[];
+
+const $=id=>document.getElementById(id);
+function load(k,def){try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(def))||def}catch(e){return def}}
+function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function shuffle(a){let x=[...a];for(let j=x.length-1;j>0;j--){let k=Math.floor(Math.random()*(j+1));[x[j],x[k]]=[x[k],x[j]]}return x}
+function acc(s){return s.attempts?Math.round(s.correct/s.attempts*100):0}
+function statFor(id){if(!stats[id])stats[id]={attempts:0,correct:0,wrong:0};return stats[id]}
+function weak(s){return s&&s.attempts>0&&(s.wrong>=2||acc(s)<70)}
+
+function updateDashboard(){
+  const entries=Object.entries(stats).filter(([id,s])=>s.attempts>0&&words.some(w=>w.id===id));
+  const ranked=entries.map(([id,s])=>({w:words.find(w=>w.id===id),s})).filter(x=>x.w).sort((a,b)=>{
+    const ar=a.s.wrong/(a.s.attempts||1),br=b.s.wrong/(b.s.attempts||1);
+    return (br-ar)||(b.s.wrong-a.s.wrong);
+  });
+  $('wordCount').textContent=words.length;
+  $('weakCount').textContent=ranked.filter(x=>weak(x.s)).length;
+  $('totalAttempts').textContent=entries.reduce((n,x)=>n+x.s.attempts,0);
+  const top=ranked.filter(x=>weak(x.s)).slice(0,30);
+  $('weakList').innerHTML=top.length?top.map(x=>{
+    const a=acc(x.s),cl=a<50?'badge':a<80?'badge warnbadge':'badge goodbadge';
+    return `<div class="weak-item"><div><span class="wname">${esc(x.w.en)}</span><br><span class="small">${esc(x.w.ja)}</span></div><div class="meta"><span class="${cl}">${a}%</span><br>${x.s.wrong}回ミス / ${x.s.attempts}回</div></div>`;
+  }).join(''):'<p class="small">まだ苦手単語はありません。テストすると自動で分類されます。</p>';
+  renderWords();
+}
+function renderWords(){
+  if(!words.length){$('wordList').innerHTML='<p class="small">まだ単語が登録されていません。</p>';return}
+  $('wordList').innerHTML=words.map(w=>{
+    const s=stats[w.id]||{attempts:0,correct:0,wrong:0};
+    return `<div class="wrongitem"><b>${esc(w.en)}</b> — ${esc(w.ja)}<br><span class="small">正答率 ${acc(s)}% / ${s.wrong}回ミス / ${s.attempts}回回答</span><button class="danger smallBtn" style="margin-top:7px" onclick="removeWord('${w.id}')">この単語を削除</button></div>`;
+  }).join('');
+}
+window.removeWord=function(id){
+  const w=words.find(x=>x.id===id);
+  if(!w)return;
+  if(confirm('「'+w.en+'」を削除しますか？')){
+    words=words.filter(x=>x.id!==id);delete stats[id];save(WORD_KEY,words);save(STAT_KEY,stats);updateDashboard();
+  }
+}
+function newId(){return 'w_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8)}
+function addWord(en,ja){
+  en=en.trim();ja=ja.trim();
+  if(!en||!ja)return false;
+  const exists=words.find(w=>w.en.toLowerCase()===en.toLowerCase());
+  if(exists){exists.ja=ja;return 'updated'}
+  words.push({id:newId(),en,ja});return true;
+}
+$('addOne').onclick=()=>{
+  const r=addWord($('newEn').value,$('newJa').value);
+  if(!r){alert('英単語と意味の両方を入力してください。');return}
+  save(WORD_KEY,words);updateDashboard();$('newEn').value='';$('newJa').value='';
+  alert(r==='updated'?'同じ単語があったので意味を更新しました。':'追加しました。');
+};
+$('addBulk').onclick=()=>{
+  const lines=$('bulk').value.split(/\n/).map(x=>x.trim()).filter(Boolean);
+  let added=0,updated=0,skipped=0;
+  for(const line of lines){
+    const parts=line.split(/\s*(?:\||\t|,|：|:)\s*/);
+    if(parts.length<2){skipped++;continue}
+    const r=addWord(parts[0],parts.slice(1).join(' | '));
+    if(r===true)added++;else if(r==='updated')updated++;
+  }
+  save(WORD_KEY,words);updateDashboard();$('bulk').value='';
+  alert(`${added}語追加しました。${updated?` ${updated}語は意味を更新しました。`:''}${skipped?` ${skipped}行は「英単語 | 意味」の形ではないため無視しました。`:''}`);
+};
+
+function start(pool){
+  if(!pool.length){alert('登録単語がありません。まず単語を追加してください。');return}
+  const n=$('count').value==='all'?pool.length:Math.min(+$('count').value,pool.length);
+  quiz=shuffle(pool).slice(0,n);lastPool=pool;i=0;score=0;wrong=[];
+  $('dashboard').classList.add('hidden');$('test').classList.remove('hidden');$('finish').classList.add('hidden');showQ();
+}
+$('start').onclick=()=>start(words);
+function showQ(){
+  const w=quiz[i],jaen=$('direction').value==='jaen';
+  $('prog').textContent=`${i+1} / ${quiz.length}`;$('score').textContent=`正解 ${score}`;
+  $('no').textContent=`登録No.${words.indexOf(w)+1}`;
+  $('q').textContent=jaen?w.ja:w.en;$('user').value='';$('user').style.display='block';$('show').style.display='block';$('panel').classList.add('hidden');$('user').focus();
+}
+$('show').onclick=()=>{
+  const w=quiz[i],jaen=$('direction').value==='jaen';
+  $('ans').textContent=jaen?w.en:w.ja;$('panel').classList.remove('hidden');$('show').style.display='none';$('user').style.display='none';
+}
+function mark(ok){
+  const w=quiz[i],s=statFor(w.id);s.attempts++;ok?s.correct++:s.wrong++;save(STAT_KEY,stats);
+  if(ok)score++;else wrong.push(w);
+  i++;i<quiz.length?showQ():finish();
+}
+$('yes').onclick=()=>mark(true);$('noBtn').onclick=()=>mark(false);
+function finish(){
+  $('test').classList.add('hidden');$('finish').classList.remove('hidden');
+  $('result').textContent=`${score} / ${quiz.length}（${Math.round(score/quiz.length*100)}%）`;
+  $('wrongOnly').classList.toggle('hidden',!wrong.length);
+  $('wrongList').innerHTML=wrong.length?('<b>今回の不正解</b>'+wrong.map(w=>{const s=statFor(w.id);return `<div class="wrongitem"><b>${esc(w.en)}</b> — ${esc(w.ja)}<br><span class="small">累計：${s.wrong}回ミス / ${s.attempts}回回答（正答率 ${acc(s)}%）</span></div>`}).join('')):'<b>今回の不正解</b><div class="wrongitem">なし。全問正解です！</div>';
+  updateDashboard();
+}
+$('wrongOnly').onclick=()=>start(wrong);
+$('again').onclick=()=>start(lastPool);
+$('back').onclick=()=>{$('finish').classList.add('hidden');$('dashboard').classList.remove('hidden');updateDashboard()};
+$('weakTest').onclick=()=>start(words.filter(w=>weak(stats[w.id])));
+$('wrongHistory').onclick=()=>start(words.filter(w=>stats[w.id]&&stats[w.id].wrong>0));
+$('clearStats').onclick=()=>{
+  if(confirm('すべての成績記録を消しますか？単語自体は残ります。')){stats={};save(STAT_KEY,stats);updateDashboard()}
+};
+
+$('exportData').onclick=()=>{
+  const data={version:1,words,stats,exportedAt:new Date().toISOString()};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='長文_知らない単語_バックアップ.json';a.click();URL.revokeObjectURL(a.href);
+};
+$('importData').onclick=()=>$('fileInput').click();
+$('fileInput').onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;
+  try{
+    const data=JSON.parse(await f.text());
+    if(!Array.isArray(data.words))throw new Error();
+    const map=new Map(words.map(w=>[w.en.toLowerCase(),w]));
+    for(const w of data.words){if(w.en&&w.ja&&!map.has(w.en.toLowerCase())){words.push({...w,id:w.id||newId()})}}
+    if(data.stats)stats={...stats,...data.stats};
+    save(WORD_KEY,words);save(STAT_KEY,stats);updateDashboard();alert('データを読み込みました。');
+  }catch(e){alert('読み込めるJSONデータではありません。')}
+  e.target.value='';
+};
+updateDashboard();
+</script>
+</body>
+</html>
