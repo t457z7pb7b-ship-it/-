@@ -132,7 +132,8 @@ button.danger{background:#fff0f0;color:#b42318}
 
 <section class="card">
 <h2>📖 登録単語一覧</h2>
-<div class="muted">不要な単語は削除できます。削除しても、他の単語の成績には影響しません。</div>
+<div class="muted">不要な単語は削除できます。検索すると登録単語をすぐ確認できます。</div>
+<input id="wordSearch" placeholder="🔎 単語・意味を検索">
 <div id="wordList"></div>
 </section>
 
@@ -171,11 +172,31 @@ function updateDashboard(){
   renderWords();
 }
 function renderWords(){
-  if(!words.length){$('wordList').innerHTML='<p class="small">まだ単語が登録されていません。</p>';return}
-  $('wordList').innerHTML=words.map(w=>{
-    const s=stats[w.id]||{attempts:0,correct:0,wrong:0};
-    return `<div class="wrongitem"><b>${esc(w.en)}</b> — ${esc(w.ja)}<br><span class="small">正答率 ${acc(s)}% / ${s.wrong}回ミス / ${s.attempts}回回答</span><button class="danger smallBtn" style="margin-top:7px" onclick="removeWord('${w.id}')">この単語を削除</button></div>`;
-  }).join('');
+  const box=$('wordList');
+  if(!box)return;
+  const keyword=(($('wordSearch')&&$('wordSearch').value)||'').trim().toLowerCase();
+  const filtered=words.filter(w=>
+    !keyword ||
+    String(w.en||'').toLowerCase().includes(keyword) ||
+    String(w.ja||'').toLowerCase().includes(keyword)
+  );
+  if(!words.length){
+    box.innerHTML='<p class="small">まだ単語が登録されていません。</p>';
+    return;
+  }
+  if(!filtered.length){
+    box.innerHTML='<p class="small">検索に一致する単語がありません。</p>';
+    return;
+  }
+  box.innerHTML=`<div class="small" style="margin:12px 0">表示：${filtered.length}語 / 登録：${words.length}語</div>`+
+    filtered.map((w,n)=>{
+      const s=stats[w.id]||{attempts:0,correct:0,wrong:0};
+      return `<div class="wrongitem">
+        <b>${esc(w.en)}</b> — ${esc(w.ja)}
+        <br><span class="small">正答率 ${acc(s)}% / ${s.wrong}回ミス / ${s.attempts}回回答</span>
+        <button class="danger smallBtn" style="margin-top:7px" onclick="removeWord('${w.id}')">この単語を削除</button>
+      </div>`;
+    }).join('');
 }
 window.removeWord=function(id){
   const w=words.find(x=>x.id===id);
@@ -269,6 +290,7 @@ $('fileInput').onchange=async e=>{
   e.target.value='';
 };
 updateDashboard();
+if($('wordSearch')) $('wordSearch').addEventListener('input',renderWords);
 </script>
 </body>
 </html>
