@@ -5,419 +5,334 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>長文・知らない単語テスト</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f3f5f9;color:#172033;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}
-main{max-width:820px;margin:auto;padding:20px 14px 60px}.card{background:#fff;border-radius:26px;padding:24px;margin:14px 0;box-shadow:0 5px 20px #00000008}
-h1{font-size:30px;margin:0 0 10px}h2{font-size:25px;margin:0 0 16px}.muted,.small{color:#68758d;line-height:1.65}
-label{display:block;font-weight:700;font-size:18px;margin:14px 0 7px}
-input,select,textarea{width:100%;padding:16px;border:2px solid #d7dce5;border-radius:18px;background:#fff;font-size:18px}
-textarea{min-height:130px;resize:vertical}button{width:100%;border:0;border-radius:18px;padding:16px;margin-top:10px;background:#172033;color:white;font-size:18px;font-weight:700}
-button.secondary{background:#edf0f5;color:#172033}button.danger{background:#fff0ee;color:#c93627}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{background:#f5f7fb;border-radius:18px;padding:15px;text-align:center}.stat b{display:block;font-size:31px;margin-top:4px}
-.word{border:1px solid #e0e4eb;border-radius:16px;padding:14px;margin:9px 0}.word b{font-size:19px}.tag{display:inline-block;padding:4px 9px;border-radius:10px;background:#fff0ee;color:#c93627;font-size:13px;margin-left:7px}
-.quizWord{text-align:center;font-size:48px;font-weight:800;margin:40px 0 25px;word-break:break-word}.result{text-align:center;font-size:20px;font-weight:700;padding:15px;border-radius:15px;background:#f5f7fb;margin-top:12px}
-.row{display:flex;gap:8px}.row>*{flex:1}.hidden{display:none!important}
-@media(max-width:560px){main{padding:10px}.card{padding:18px;border-radius:22px}h1{font-size:27px}.grid{gap:7px}.stat{padding:11px}.stat b{font-size:27px}.quizWord{font-size:40px}}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#f2f5fa;color:#17233a;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif}
+body{padding-bottom:82px}
+main{max-width:760px;margin:auto;padding:10px 14px 24px}
+.card{background:#fff;border-radius:24px;padding:22px;margin:10px 0;box-shadow:0 2px 12px rgba(30,50,80,.055)}
+.hero h1{font-size:27px;margin:0 0 13px;letter-spacing:-.5px}
+.hero p{font-size:17px;line-height:1.65;color:#687a98;margin:0}
+h2{font-size:23px;margin:0 0 18px}
+h3{font-size:20px;margin:20px 0 12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.stat{background:#f5f7fb;border-radius:21px;text-align:center;padding:14px 4px}
+.stat .label{font-size:15px}
+.stat .num{font-size:34px;font-weight:800;margin-top:2px}
+.rank{border:2px solid #e3e7ef;border-radius:18px;padding:11px 12px;margin:8px 0;display:flex;align-items:center;gap:8px;min-height:54px}
+.rank .name{font-size:17px;font-weight:800;flex:1;min-width:0}
+.rank .meaning{font-weight:500;color:#61728f}
+.rank .result{background:#fff0ee;color:#d83b30;border-radius:14px;padding:6px 8px;font-size:13px;white-space:nowrap}
+button,input,select,textarea{font:inherit}
+input,select,textarea{width:100%;padding:12px 13px;border:1px solid #dce2eb;border-radius:13px;background:#fff;font-size:16px;margin:4px 0}
+textarea{min-height:95px}
+button{border:0;border-radius:13px;padding:11px 15px;background:#e8ecf2;color:#17233a;font-weight:700;margin:4px 3px 0 0}
+button.primary{background:#17233a;color:#fff}
+button.danger{background:#fff0ee;color:#d83b30}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.muted{color:#71809a;font-size:13px;line-height:1.5}
+.list{border:1px solid #e0e5ed;border-radius:16px;overflow:hidden;max-height:560px;overflow-y:auto;background:#fff}
+.word{padding:14px 13px;border-bottom:1px solid #e8ebf0}
+.word:last-child{border-bottom:0}
+.wordtop{display:flex;justify-content:space-between;gap:10px}
+.worden{font-size:17px;font-weight:800}
+.wordja{font-size:15px;color:#526683;margin-top:4px}
+.wordstat{font-size:12px;color:#77859b;margin-top:5px}
+#quiz{display:none}
+.q{font-size:34px;font-weight:800;text-align:center;padding:65px 8px 22px;word-break:break-word}
+.a{min-height:40px;text-align:center;font-size:21px;margin-bottom:20px}
+.bottomnav{position:fixed;left:0;right:0;bottom:0;height:74px;background:rgba(255,255,255,.96);border-top:1px solid #dce2ea;display:grid;grid-template-columns:repeat(4,1fr);z-index:20}
+.navbtn{border:0;background:transparent!important;border-radius:0!important;margin:0!important;padding:7px 0!important;color:#71809a!important;font-weight:500!important;font-size:12px}
+.navbtn .icon{display:block;font-size:25px;line-height:29px}
+.navbtn.active{color:#1769e0!important}
+.panel{display:none}
+.panel.active{display:block}
+@media(max-width:600px){
+ main{padding:8px 11px 20px}
+ .card{padding:20px 17px;border-radius:23px}
+ .hero h1{font-size:25px}
+ .hero p{font-size:17px}
+ h2{font-size:22px}
+ .rank .name{font-size:16px}
+ .rank .result{font-size:12px}
+ .q{font-size:30px}
+}
 </style>
 </head>
-<body><main>
-<section class="card">
+<body>
+<main>
+<section id="homePanel" class="panel active">
+<div class="card hero">
 <h1>📚 長文・知らない単語テスト</h1>
-<div class="muted">長文で出会った知らない単語を追加して、自分専用の単語帳＆テストにできます。</div>
-</section>
-
-<section class="card">
-<h2>📊 苦手単語管理</h2>
-<div class="grid">
-<div class="stat">登録単語<b id="count">220</b></div>
-<div class="stat">苦手<b id="weakCount">0</b></div>
-<div class="stat">総回答<b id="attemptCount">0</b></div>
+<p>長文で出会った知らない単語を追加して、自分専用の単語帳＆テストにできます。</p>
 </div>
-<h3>苦手度ランキング</h3><div id="ranking" class="muted">まだ苦手単語はありません。</div>
-<button onclick="startWeak()">🔴 苦手単語だけテスト</button>
-<button class="secondary" onclick="startWrong()">❌ 間違えた単語だけ</button>
-<button class="secondary" onclick="resetStats()">成績をリセット</button>
+
+<div class="card">
+<h2>📊 苦手単語管理</h2>
+<div class="stats">
+<div class="stat"><div class="label">登録単語</div><div class="num" id="total">259</div></div>
+<div class="stat"><div class="label">苦手</div><div class="num" id="weak">0</div></div>
+<div class="stat"><div class="label">総回答</div><div class="num" id="answered">0</div></div>
+</div>
+<h3>苦手度ランキング</h3>
+<div id="ranking"></div>
+</div>
+
+<div class="card">
+<h2>😟 苦手管理</h2>
+<button style="width:100%;text-align:left" onclick="showPanel('listPanel')">▣　苦手単語を一覧表示　　›</button>
+</div>
 </section>
 
-<section class="card">
+<section id="listPanel" class="panel">
+<div class="card">
+<h2>📖 登録単語一覧 <span id="count">259語</span></h2>
+<input id="search" placeholder="単語・意味を検索" oninput="renderList()">
+<div id="list" class="list"></div>
+</div>
+</section>
+
+<section id="testPanel" class="panel">
+<div class="card">
+<h2>📝 単語テスト</h2>
+<div class="row">
+<select id="direction"><option value="enja">英語 → 日本語</option><option value="jaen">日本語 → 英語</option></select>
+<select id="num"><option value="10">10問</option><option value="20">20問</option><option value="30">30問</option><option value="50">50問</option><option value="100">100問</option><option value="all">全問</option></select>
+</div>
+<button class="primary" onclick="startTest('all')">テスト開始</button>
+<button onclick="startTest('weak')">苦手だけ</button>
+<button onclick="startTest('wrong')">間違えた単語</button>
+<p class="muted">出題回数の少ない単語を優先して、できるだけ均等に出題します。</p>
+</div>
+</section>
+
+<section id="settingsPanel" class="panel">
+<div class="card">
 <h2>➕ 単語を追加</h2>
-<label>英単語</label><input id="en" placeholder="例：contribute">
-<label>意味</label><input id="ja" placeholder="例：貢献する">
-<button onclick="addOne()">この1語を追加</button>
-<label>まとめて追加</label>
-<textarea id="bulk" placeholder="1行に1語：&#10;contribute | 貢献する&#10;attribute | 属性"></textarea>
-<button onclick="addBulk()">まとめて追加</button>
-</section>
-
-<section class="card">
-<h2>📝 テスト設定</h2>
-<label>出題方向</label><select id="direction"><option value="ej">英語 → 日本語</option><option value="je">日本語 → 英語</option></select>
-<label>問題数</label><select id="num"><option value="10">10問</option><option value="20">20問</option><option value="30">30問</option><option value="50">50問</option><option value="100">100問</option><option value="all">登録単語すべて</option></select>
-<button onclick="startAll()">テスト開始</button>
-</section>
-
-<section class="card hidden" id="quizCard">
-<div class="row"><div class="muted" id="progress"></div><div class="muted" id="score" style="text-align:right"></div></div>
-<div class="muted" id="regno"></div>
-<div class="quizWord" id="quizWord"></div>
-<input id="answer" placeholder="答えを入力（採点は自己判定）">
-<button onclick="showAnswer()">答えを見る</button>
-<div id="answerArea" class="hidden"><div class="result" id="correctAnswer"></div><button onclick="mark(true)">⭕ 正解</button><button class="danger" onclick="mark(false)">❌ 不正解</button></div>
-</section>
-
-<section class="card">
-<h2>📖 登録単語一覧 <span id="listCount">（220語）</span></h2>
-<div class="muted">220語が初期登録されています。追加した単語もここに表示されます。</div>
-<input id="search" placeholder="🔎 単語・意味を検索">
-<div id="wordList"><div class="word"><b>1. pave</b><br>舗装する</div>
-<div class="word"><b>2. no longer</b><br>もはや</div>
-<div class="word"><b>3. so much as</b><br>(否定分で) 〜さえしない</div>
-<div class="word"><b>4. lounge</b><br>のんびり過ごす</div>
-<div class="word"><b>5. reclaim</b><br>取り戻す</div>
-<div class="word"><b>6. garment</b><br>衣服</div>
-<div class="word"><b>7. attire</b><br>服装</div>
-<div class="word"><b>8. attribute</b><br>属性</div>
-<div class="word"><b>9. censure</b><br>非難</div>
-<div class="word"><b>10. spring</b><br>跳ねる</div>
-<div class="word"><b>11. spur</b><br>駆り立てる</div>
-<div class="word"><b>12. be credited with 〜</b><br>〜の功績がある</div>
-<div class="word"><b>13. tap</b><br>蛇口</div>
-<div class="word"><b>14. tap into</b><br>利用する</div>
-<div class="word"><b>15. cliff</b><br>崖</div>
-<div class="word"><b>16. agitate</b><br>動揺させる</div>
-<div class="word"><b>17. be faithful to〜</b><br>〜に忠実な</div>
-<div class="word"><b>18. side</b><br>〜の側につく</div>
-<div class="word"><b>19. dock</b><br>(船)を埠頭につける</div>
-<div class="word"><b>20. deserve</b><br>値する</div>
-<div class="word"><b>21. relate</b><br>述べる</div>
-<div class="word"><b>22. excessive</b><br>過度の</div>
-<div class="word"><b>23. hang out</b><br>遊ぶ</div>
-<div class="word"><b>24. stunning</b><br>見事な</div>
-<div class="word"><b>25. spectacled</b><br>メガネをかけている</div>
-<div class="word"><b>26. spectacular</b><br>壮観な</div>
-<div class="word"><b>27. spectating</b><br>傍観している</div>
-<div class="word"><b>28. transcend</b><br>超越する</div>
-<div class="word"><b>29. glare</b><br>まぶしい光</div>
-<div class="word"><b>30. dare</b><br>挑戦</div>
-<div class="word"><b>31. circular</b><br>円形の、丸い</div>
-<div class="word"><b>32. solar</b><br>太陽の</div>
-<div class="word"><b>33. lurid</b><br>赤く輝いている</div>
-<div class="word"><b>34. anecdote</b><br>逸話</div>
-<div class="word"><b>35. dwindle</b><br>どんどん減る</div>
-<div class="word"><b>36. deplete</b><br>激減させる | 使い果たす</div>
-<div class="word"><b>37. sedentary</b><br>座りがちな | ほとんど体を動かさない</div>
-<div class="word"><b>38. dwell</b><br>存在する | 住む</div>
-<div class="word"><b>39. gut</b><br>腸</div>
-<div class="word"><b>40. leading</b><br>首位の</div>
-<div class="word"><b>41. stool</b><br>糞便</div>
-<div class="word"><b>42. volunteer</b><br>被験者</div>
-<div class="word"><b>43. range from A to B</b><br>AからBに渡る</div>
-<div class="word"><b>44. specific</b><br>特定の</div>
-<div class="word"><b>45. antibiotics</b><br>抗生物質</div>
-<div class="word"><b>46. voluntary</b><br>自発的な</div>
-<div class="word"><b>47. explore</b><br>検討する | 探る</div>
-<div class="word"><b>48. conversely</b><br>逆に</div>
-<div class="word"><b>49. be active in〜</b><br>〜で作用している</div>
-<div class="word"><b>50. physiology</b><br>生理機能</div>
-<div class="word"><b>51. nothing but that</b><br>それだけ</div>
-<div class="word"><b>52. concerned with</b><br>〜に影響を受けずに</div>
-<div class="word"><b>53. plain</b><br>簡素な | 地味な | 無地の | 明白な</div>
-<div class="word"><b>54. peddle</b><br>〜を植え付ける</div>
-<div class="word"><b>55. retailer</b><br>小売業者</div>
-<div class="word"><b>56. vulnerable</b><br>〜の的となりやすい</div>
-<div class="word"><b>57. lead</b><br>主人公</div>
-<div class="word"><b>58. gendered</b><br>男女を区別した</div>
-<div class="word"><b>59. discrimination</b><br>差別</div>
-<div class="word"><b>60. horizon</b><br>視野</div>
-<div class="word"><b>61. quite likely</b><br>おそらく〜だろう</div>
-<div class="word"><b>62. massive</b><br>大きな</div>
-<div class="word"><b>63. lazy</b><br>怠けている</div>
-<div class="word"><b>64. predictably</b><br>予想される</div>
-<div class="word"><b>65. slap</b><br>つける | 貼る</div>
-<div class="word"><b>66. onwards</b><br>先へ</div>
-<div class="word"><b>67. commitment</b><br>約束</div>
-<div class="word"><b>68. incentivize</b><br>動機づける | 奨励する</div>
-<div class="word"><b>69. introduce a bill</b><br>法案を提出する</div>
-<div class="word"><b>70. outlook</b><br>見方 | 気分</div>
-<div class="word"><b>71. be engaged with〜</b><br>〜に関わる | 没頭する</div>
-<div class="word"><b>72. overhead expense</b><br>経費</div>
-<div class="word"><b>73. add up</b><br>積み重なる</div>
-<div class="word"><b>74. manageable</b><br>管理できる</div>
-<div class="word"><b>75. workload</b><br>仕事量</div>
-<div class="word"><b>76. reasonable</b><br>理にかなった | 妥当な</div>
-<div class="word"><b>77. burnout</b><br>燃え尽き症候群</div>
-<div class="word"><b>78. fall behind</b><br>後れをとる</div>
-<div class="word"><b>79. afloat</b><br>浮いた</div>
-<div class="word"><b>80. stay afloat</b><br>やりくりする</div>
-<div class="word"><b>81. diligent</b><br>勤勉な | 慎重な</div>
-<div class="word"><b>82. honor the time</b><br>設定した時間を守る</div>
-<div class="word"><b>83. yet another</b><br>さらにもう１つの</div>
-<div class="word"><b>84. vice</b><br>副〜</div>
-<div class="word"><b>85. resentful</b><br>不満を抱く</div>
-<div class="word"><b>86. short-changed</b><br>損をした気分の</div>
-<div class="word"><b>87. description</b><br>説明</div>
-<div class="word"><b>88. align with〜</b><br>〜と一致する</div>
-<div class="word"><b>89. thoroughly</b><br>徹底的に</div>
-<div class="word"><b>90. dominant hand</b><br>利き手</div>
-<div class="word"><b>91. spoken language</b><br>話し言葉</div>
-<div class="word"><b>92. speech</b><br>話し言葉</div>
-<div class="word"><b>93. foremost</b><br>重要な</div>
-<div class="word"><b>94. discrete</b><br>別々の</div>
-<div class="word"><b>95. it turns out that〜</b><br>〜だと判明する</div>
-<div class="word"><b>96. fire</b><br>活動する</div>
-<div class="word"><b>97. empathize</b><br>共感する</div>
-<div class="word"><b>98. incongruent</b><br>調和しない</div>
-<div class="word"><b>99. dissonance</b><br>不協和音</div>
-<div class="word"><b>100. thorough</b><br>徹底的な</div>
-<div class="word"><b>101. correlate with〜</b><br>〜と相関関係のある</div>
-<div class="word"><b>102. Communism</b><br>共産主義</div>
-<div class="word"><b>103. capitalism</b><br>資本主義</div>
-<div class="word"><b>104. control for〜</b><br>〜を考慮に入れる</div>
-<div class="word"><b>105. endeavor</b><br>試み/事業</div>
-<div class="word"><b>106. have pity on〜</b><br>〜に同情を示す</div>
-<div class="word"><b>107. at once</b><br>すぐに/同時に</div>
-<div class="word"><b>108. plagiarism</b><br>盗作</div>
-<div class="word"><b>109. idly</b><br>ぼんやりと</div>
-<div class="word"><b>110. discipline</b><br>学問/分野</div>
-<div class="word"><b>111. dimensional</b><br>次元の</div>
-<div class="word"><b>112. play with〜</b><br>〜をいじる</div>
-<div class="word"><b>113. play around with〜</b><br>〜を気軽にいじる</div>
-<div class="word"><b>114. in the works</b><br>計画中で | 進行中で</div>
-<div class="word"><b>115. 〜and so forth</b><br>〜など</div>
-<div class="word"><b>116. go through〜</b><br>〜を経験する</div>
-<div class="word"><b>117. identical</b><br>同一の\全く同じ</div>
-<div class="word"><b>118. part company</b><br>別れる</div>
-<div class="word"><b>119. composition</b><br>作曲</div>
-<div class="word"><b>120. from scratch</b><br>最初から | ゼロから</div>
-<div class="word"><b>121. quotient</b><br>指数</div>
-<div class="word"><b>122. set〜apart</b><br>〜を際立たせる</div>
-<div class="word"><b>123. playful</b><br>遊び心ある</div>
-<div class="word"><b>124. you name it</b><br>どんなものでも</div>
-<div class="word"><b>125. give an interview to〜</b><br>〜のインタビューに応じる</div>
-<div class="word"><b>126. pursue</b><br>続ける</div>
-<div class="word"><b>127. soar to〜</b><br>〜まで急上昇する</div>
-<div class="word"><b>128. draw</b><br>引き出す | 取る</div>
-<div class="word"><b>129. beneath</b><br>〜の下に</div>
-<div class="word"><b>130. call 〜 to mind</b><br>〜を連想させる</div>
-<div class="word"><b>131. by no means</b><br>決して〜ではない</div>
-<div class="word"><b>132. be traced back to 〜</b><br>〜にまでたどることができる</div>
-<div class="word"><b>133. arena</b><br>分野</div>
-<div class="word"><b>134. take over</b><br>買収する</div>
-<div class="word"><b>135. variety</b><br>多様性</div>
-<div class="word"><b>136. feature</b><br>〜を特徴として持つ</div>
-<div class="word"><b>137. those with thick wallets</b><br>裕福な人</div>
-<div class="word"><b>138. fool 人 into -ing</b><br>人を騙して〜させる</div>
-<div class="word"><b>139. sport</b><br>娯楽</div>
-<div class="word"><b>140. estimate</b><br>見積もる</div>
-<div class="word"><b>141. ignite</b><br>火をつける | 奮起させる</div>
-<div class="word"><b>142. stir</b><br>奮起させる | 扇動する</div>
-<div class="word"><b>143. body</b><br>天体</div>
-<div class="word"><b>144. process</b><br>処理する</div>
-<div class="word"><b>145. spike</b><br>急増する</div>
-<div class="word"><b>146. speak for those</b><br>〜な人々のために声を上げる</div>
-<div class="word"><b>147. property</b><br>性質</div>
-<div class="word"><b>148. respectively</b><br>それぞれ</div>
-<div class="word"><b>149. mass</b><br>質量</div>
-<div class="word"><b>150. rocky</b><br>岩でできた</div>
-<div class="word"><b>151. rekindle</b><br>再びかき立てる</div>
-<div class="word"><b>152. go back to the drawing board</b><br>最初の段階に戻ってやり直す</div>
-<div class="word"><b>153. ectotherm</b><br>外温動物</div>
-<div class="word"><b>154. sluggard</b><br>怠け者</div>
-<div class="word"><b>155. bask in〜</b><br>(光などを)浴びる</div>
-<div class="word"><b>156. scaled-up</b><br>大きな</div>
-<div class="word"><b>157. drag</b><br>引きずる</div>
-<div class="word"><b>158. brute</b><br>猛獣</div>
-<div class="word"><b>159. endortherm</b><br>内温動物</div>
-<div class="word"><b>160. regulate</b><br>調節する</div>
-<div class="word"><b>161. spectrum</b><br>範囲</div>
-<div class="word"><b>162. tabulate</b><br>表にする</div>
-<div class="word"><b>163. census</b><br>調査</div>
-<div class="word"><b>164. ostrich</b><br>ダチョウ</div>
-<div class="word"><b>165. capitalize on〜</b><br>利用する</div>
-<div class="word"><b>166. plot</b><br>考える</div>
-<div class="word"><b>167. the heck</b><br>いったい(疑問詞の強調)</div>
-<div class="word"><b>168. stick to〜</b><br>〜に固執する | 〜し続ける</div>
-<div class="word"><b>169. nature</b><br>性質</div>
-<div class="word"><b>170. entrant</b><br>参加者</div>
-<div class="word"><b>171. entrust A to B</b><br>AをBに委託する</div>
-<div class="word"><b>172. swab</b><br>綿棒 | 消毒液</div>
-<div class="word"><b>173. unduly</b><br>過度に</div>
-<div class="word"><b>174. terminal</b><br>末期の</div>
-<div class="word"><b>175. point the way</b><br>方向性を示す</div>
-<div class="word"><b>176. dissertation</b><br>論文</div>
-<div class="word"><b>177. tutor</b><br>家庭教師</div>
-<div class="word"><b>178. carry out</b><br>実行する</div>
-<div class="word"><b>179. module</b><br>部分 | 単位</div>
-<div class="word"><b>180. halve</b><br>半減する</div>
-<div class="word"><b>181. imperative</b><br>命令的な | 緊急の</div>
-<div class="word"><b>182. asylum</b><br>亡命 | 避難 | 避難所</div>
-<div class="word"><b>183. in need of〜</b><br>〜を必要として</div>
-<div class="word"><b>184. entity</b><br>実体、団体</div>
-<div class="word"><b>185. involve</b><br>関与させる</div>
-<div class="word"><b>186. take along</b><br>連れていく</div>
-<div class="word"><b>187. in the lead of〜</b><br>〜の先頭で</div>
-<div class="word"><b>188. avenue</b><br>道 | 手段</div>
-<div class="word"><b>189. spouse</b><br>配偶者</div>
-<div class="word"><b>190. assume</b><br>(役割などを)引き受ける</div>
-<div class="word"><b>191. normatively</b><br>規範的に</div>
-<div class="word"><b>192. dependent</b><br>扶養される人 | 他人に頼って暮らす人</div>
-<div class="word"><b>193. distinction</b><br>区別 | 相違</div>
-<div class="word"><b>194. implication</b><br>影響</div>
-<div class="word"><b>195. prolong</b><br>長引く</div>
-<div class="word"><b>196. unaccompanied</b><br>単身の</div>
-<div class="word"><b>197. minor</b><br>未成年者</div>
-<div class="word"><b>198. ahead of〜</b><br>〜より先に</div>
-<div class="word"><b>199. lone</b><br>身寄りのない</div>
-<div class="word"><b>200. 名詞 combined</b><br>名詞の合計</div>
-<div class="word"><b>201. yield</b><br>もたらす</div>
-<div class="word"><b>202. state</b><br>国家</div>
-<div class="word"><b>203. exploitation</b><br>搾取</div>
-<div class="word"><b>204. the extent to which〜</b><br>どの程度〜か</div>
-<div class="word"><b>205. lung</b><br>肺</div>
-<div class="word"><b>206. reject</b><br>棄却する | 却下する</div>
-<div class="word"><b>207. pronounce</b><br>宣告する</div>
-<div class="word"><b>208. by virtue of 〜</b><br>〜のおかげで</div>
-<div class="word"><b>209. critical care</b><br>救命救急治療</div>
-<div class="word"><b>210. dialysis</b><br>透析</div>
-<div class="word"><b>211. kidneys</b><br>腎臓</div>
-<div class="word"><b>212. fledgling</b><br>未熟な</div>
-<div class="word"><b>213. indefinitely</b><br>無限に</div>
-<div class="word"><b>214. agency</b><br>主体性</div>
-<div class="word"><b>215. grieving</b><br>悲しみ</div>
-<div class="word"><b>216. cardiac</b><br>心臓の</div>
-<div class="word"><b>217. be congruent with 〜</b><br>〜の一致している</div>
-<div class="word"><b>218. perpetuate</b><br>永続させる</div>
-<div class="word"><b>219. nail-biting</b><br>ハラハラドキドキの</div>
-<div class="word"><b>220. landing</b><br>着陸</div></div>
-</section>
-
-<section class="card">
+<input id="newWord" placeholder="英単語">
+<input id="newMeaning" placeholder="日本語の意味">
+<button class="primary" onclick="addOne()">登録する</button>
+<p class="muted">複数登録：1行「英語 | 日本語」</p>
+<textarea id="bulk" placeholder="attribute | 属性&#10;attire | 服装"></textarea>
+<button onclick="addBulk()">まとめて登録</button>
+</div>
+<div class="card">
 <h2>💾 バックアップ</h2>
-<button onclick="exportData()">JSONを書き出す</button>
-<label>JSONから復元</label><input type="file" id="file" accept=".json,application/json">
+<button onclick="exportJSON()">JSONを書き出す</button>
+<input type="file" accept=".json" onchange="importJSON(this.files[0])">
+</div>
+</section>
+
+<section id="quiz" class="panel">
+<div class="card">
+<div id="progress" class="muted"></div>
+<div id="question" class="q"></div>
+<div id="answer" class="a"></div>
+<button class="primary" onclick="showAnswer()">答えを見る</button>
+<button onclick="judge(true)">正解</button>
+<button class="danger" onclick="judge(false)">不正解</button>
+<button onclick="finishQuiz()">終了</button>
+</div>
 </section>
 </main>
+
+<nav class="bottomnav">
+<button id="navHome" class="navbtn active" onclick="showPanel('homePanel')"><span class="icon">⌂</span>ホーム</button>
+<button id="navList" class="navbtn" onclick="showPanel('listPanel')"><span class="icon">☷</span>登録単語一覧</button>
+<button id="navTest" class="navbtn" onclick="showPanel('testPanel')"><span class="icon">▤</span>テスト</button>
+<button id="navSettings" class="navbtn" onclick="showPanel('settingsPanel')"><span class="icon">⚙</span>設定</button>
+</nav>
+
 <script>
-const INITIAL_WORDS=[{"id":"w_mt9hogsq_r1trjc","en":"pave","ja":"舗装する"},{"id":"w_mt9j8tpx_m9uxrg","en":"no longer","ja":"もはや"},{"id":"w_mt9jfpnb_0n837e","en":"so much as","ja":"(否定分で) 〜さえしない"},{"id":"w_mtawtpv6_got3a1","en":"lounge","ja":"のんびり過ごす"},{"id":"w_mtawul9q_i2lg4j","en":"reclaim","ja":"取り戻す"},{"id":"w_mtax9e62_w4nfzn","en":"garment","ja":"衣服"},{"id":"w_mtax9lrb_nd8vf4","en":"attire","ja":"服装"},{"id":"w_mtaxa058_5z7k6q","en":"attribute","ja":"属性"},{"id":"w_mtaxaxsc_3p1296","en":"censure","ja":"非難"},{"id":"w_mtaxogj2_ykerro","en":"spring","ja":"跳ねる"},{"id":"w_mtaxpana_vgvnx7","en":"spur","ja":"駆り立てる"},{"id":"w_mtaxv96p_riivy1","en":"be credited with 〜","ja":"〜の功績がある"},{"id":"w_mtb06p3a_9hsdug","en":"tap","ja":"蛇口"},{"id":"w_mtb09av7_hkxb97","en":"tap into","ja":"利用する"},{"id":"w_mtb1ag17_rcs5l1","en":"cliff","ja":"崖"},{"id":"w_mtb1bof4_efi0jk","en":"agitate","ja":"動揺させる"},{"id":"w_mtc8o7pt_6w2gr0","en":"be faithful to〜","ja":"〜に忠実な"},{"id":"w_mtc8xjiz_25bwcl","en":"side","ja":"〜の側につく"},{"id":"w_mtc8xjiz_j2uidj","en":"dock","ja":"(船)を埠頭につける"},{"id":"w_mtc8xjiz_w6yb50","en":"deserve","ja":"値する"},{"id":"w_mtc8xjiz_8h7wsl","en":"relate","ja":"述べる"},{"id":"w_mtc8z9ap_n53dde","en":"excessive","ja":"過度の"},{"id":"w_mtc95jgr_oed0h2","en":"hang out","ja":"遊ぶ"},{"id":"w_mtc9o9t7_7y4dqx","en":"stunning","ja":"見事な"},{"id":"w_mtc9o9t7_ana1qn","en":"spectacled","ja":"メガネをかけている"},{"id":"w_mtc9o9t7_hj1prx","en":"spectacular","ja":"壮観な"},{"id":"w_mtc9o9t7_ruiikz","en":"spectating","ja":"傍観している"},{"id":"w_mtc9o9t7_2zl4jk","en":"transcend","ja":"超越する"},{"id":"w_mtc9o9t7_dy0uxo","en":"glare","ja":"まぶしい光"},{"id":"w_mtc9o9t7_51mhjn","en":"dare","ja":"挑戦"},{"id":"w_mtc9qamy_c4orss","en":"circular","ja":"円形の、丸い"},{"id":"w_mtc9qamy_duck6n","en":"solar","ja":"太陽の"},{"id":"w_mtc9xnhj_dmn6e2","en":"lurid","ja":"赤く輝いている"},{"id":"w_mtcbarx0_leb56f","en":"anecdote","ja":"逸話"},{"id":"w_mtdqe0fi_4g7hy0","en":"dwindle","ja":"どんどん減る"},{"id":"w_mtdqe0fi_o4zc18","en":"deplete","ja":"激減させる | 使い果たす"},{"id":"w_mtdqe0fi_e0blwu","en":"sedentary","ja":"座りがちな | ほとんど体を動かさない"},{"id":"w_mtdqi55i_lf1z6k","en":"dwell","ja":"存在する | 住む"},{"id":"w_mtdvp1or_lbkm3g","en":"gut","ja":"腸"},{"id":"w_mtdvu0zc_hycj8g","en":"leading","ja":"首位の"},{"id":"w_mtdvyq43_cpsd5x","en":"stool","ja":"糞便"},{"id":"w_mtdvyq44_391d0k","en":"volunteer","ja":"被験者"},{"id":"w_mtdwmk4y_snu6b1","en":"range from A to B","ja":"AからBに渡る"},{"id":"w_mtdx1m2u_ir0qps","en":"specific","ja":"特定の"},{"id":"w_mtdx4jtq_ix5zur","en":"antibiotics","ja":"抗生物質"},{"id":"w_mtdx5qbq_uhrzg2","en":"voluntary","ja":"自発的な"},{"id":"w_mtdxa48n_pbc0ai","en":"explore","ja":"検討する | 探る"},{"id":"w_mtdxp9yv_tma106","en":"conversely","ja":"逆に"},{"id":"w_mtdxtxpx_0hvwu2","en":"be active in〜","ja":"〜で作用している"},{"id":"w_mtdy1s1i_8g3243","en":"physiology","ja":"生理機能"},{"id":"w_mtfazxoi_6rmko5","en":"nothing but that","ja":"それだけ"},{"id":"w_mtfazxoi_lyw2yx","en":"concerned with","ja":"〜に影響を受けずに"},{"id":"w_mtfazxoi_5e8926","en":"plain","ja":"簡素な | 地味な | 無地の | 明白な"},{"id":"w_mtfazxoi_0r3cqz","en":"peddle","ja":"〜を植え付ける"},{"id":"w_mtfazxoi_4y7ag9","en":"retailer","ja":"小売業者"},{"id":"w_mtfazxoi_di6he2","en":"vulnerable","ja":"〜の的となりやすい"},{"id":"w_mtfazxoi_60tzur","en":"lead","ja":"主人公"},{"id":"w_mtfazxoi_g2bf6u","en":"gendered","ja":"男女を区別した"},{"id":"w_mtfazxoj_r29upt","en":"discrimination","ja":"差別"},{"id":"w_mtfb4gad_kr85f6","en":"horizon","ja":"視野"},{"id":"w_mtfbj7el_x23vpi","en":"quite likely","ja":"おそらく〜だろう"},{"id":"w_mtfbj7el_5tq7ob","en":"massive","ja":"大きな"},{"id":"w_mtfbn6ws_ni8rho","en":"lazy","ja":"怠けている"},{"id":"w_mtfbn6ws_02fpah","en":"predictably","ja":"予想される"},{"id":"w_mtfbqixn_s6x6in","en":"slap","ja":"つける | 貼る"},{"id":"w_mtfcha5q_k369wr","en":"onwards","ja":"先へ"},{"id":"w_mtgoncdr_vtvn1y","en":"commitment","ja":"約束"},{"id":"w_mtgvsmsl_pq56iv","en":"incentivize","ja":"動機づける | 奨励する"},{"id":"w_mtgvsmsl_knpnc2","en":"introduce a bill","ja":"法案を提出する"},{"id":"w_mtgw4lfi_rst4cv","en":"outlook","ja":"見方 | 気分"},{"id":"w_mtgw7kty_c9c1x0","en":"be engaged with〜","ja":"〜に関わる | 没頭する"},{"id":"w_mtgwakem_rz398x","en":"overhead expense","ja":"経費"},{"id":"w_mtgwakem_h491zx","en":"add up","ja":"積み重なる"},{"id":"w_mtgxi8gi_uib1f8","en":"manageable","ja":"管理できる"},{"id":"w_mtgxi8gi_9uycus","en":"workload","ja":"仕事量"},{"id":"w_mtgxi8gi_g2utbw","en":"reasonable","ja":"理にかなった | 妥当な"},{"id":"w_mtgxm83n_yyvt1e","en":"burnout","ja":"燃え尽き症候群"},{"id":"w_mtgxxlhd_bm0j9a","en":"fall behind","ja":"後れをとる"},{"id":"w_mtgy03sb_vlgsqs","en":"afloat","ja":"浮いた"},{"id":"w_mtgy03sb_4zpivv","en":"stay afloat","ja":"やりくりする"},{"id":"w_mtgy7yrw_nvcqxq","en":"diligent","ja":"勤勉な | 慎重な"},{"id":"w_mtgyahfm_ihnymm","en":"honor the time","ja":"設定した時間を守る"},{"id":"w_mtgypffo_vsp6ot","en":"yet another","ja":"さらにもう１つの"},{"id":"w_mtgypffo_la1f6u","en":"vice","ja":"副〜"},{"id":"w_mtgyyghs_gd21xs","en":"resentful","ja":"不満を抱く"},{"id":"w_mtgyyghs_m5icve","en":"short-changed","ja":"損をした気分の"},{"id":"w_mtgz9p5g_ntto2m","en":"description","ja":"説明"},{"id":"w_mtgzw3eh_gmwx56","en":"align with〜","ja":"〜と一致する"},{"id":"w_mtgzw3eh_u4k3n0","en":"thoroughly","ja":"徹底的に"},{"id":"w_mthv5il9_9ix3mj","en":"dominant hand","ja":"利き手"},{"id":"w_mthvigma_6ovnrp","en":"spoken language","ja":"話し言葉"},{"id":"w_mthvigma_gazulq","en":"speech","ja":"話し言葉"},{"id":"w_mtibae9z_9a51s9","en":"foremost","ja":"重要な"},{"id":"w_mtibbtga_531ua4","en":"discrete","ja":"別々の"},{"id":"w_mtibe7ch_g3zlv1","en":"it turns out that〜","ja":"〜だと判明する"},{"id":"w_mtibyxtg_lgg4wp","en":"fire","ja":"活動する"},{"id":"w_mtic776i_iey436","en":"empathize","ja":"共感する"},{"id":"w_mticd002_x9plhn","en":"incongruent","ja":"調和しない"},{"id":"w_mticd002_o9lfpj","en":"dissonance","ja":"不協和音"},{"id":"w_mtjnrmxp_nr4uc1","en":"thorough","ja":"徹底的な"},{"id":"w_mtjnrmxp_9nef6f","en":"correlate with〜","ja":"〜と相関関係のある"},{"id":"w_mtjoi64m_v81ico","en":"Communism","ja":"共産主義"},{"id":"w_mtjoi64m_qj1w5g","en":"capitalism","ja":"資本主義"},{"id":"w_mtjojqgy_bymp3q","en":"control for〜","ja":"〜を考慮に入れる"},{"id":"w_mtkpsx89_19oc2u","en":"endeavor","ja":"試み/事業"},{"id":"w_mtkpwc24_96f3uk","en":"have pity on〜","ja":"〜に同情を示す"},{"id":"w_mtkpzss2_ahweg5","en":"at once","ja":"すぐに/同時に"},{"id":"w_mtl4xvy6_y649e6","en":"plagiarism","ja":"盗作"},{"id":"w_mtl4xvy6_d1l7ot","en":"idly","ja":"ぼんやりと"},{"id":"w_mtl5rycx_xchq6r","en":"discipline","ja":"学問/分野"},{"id":"w_mtl5uus7_wxovgn","en":"dimensional","ja":"次元の"},{"id":"w_mtl5xt81_0roizk","en":"play with〜","ja":"〜をいじる"},{"id":"w_mtl6c92s_iatmwh","en":"play around with〜","ja":"〜を気軽にいじる"},{"id":"w_mtl6c92s_uwc41h","en":"in the works","ja":"計画中で | 進行中で"},{"id":"w_mtl6c92s_96se0c","en":"〜and so forth","ja":"〜など"},{"id":"w_mtl7e21s_vrvotk","en":"go through〜","ja":"〜を経験する"},{"id":"w_mtl7e21s_xvjxn5","en":"identical","ja":"同一の\\全く同じ"},{"id":"w_mtl7jdzr_aexx41","en":"part company","ja":"別れる"},{"id":"w_mtl7pqrl_et7nv9","en":"composition","ja":"作曲"},{"id":"w_mtl7pqrl_di64ww","en":"from scratch","ja":"最初から | ゼロから"},{"id":"w_mtl7vpbr_fj6ds5","en":"quotient","ja":"指数"},{"id":"w_mtl8295p_cpk65t","en":"set〜apart","ja":"〜を際立たせる"},{"id":"w_mtl85g65_2wi0ad","en":"playful","ja":"遊び心ある"},{"id":"w_mtl88z33_0nyue7","en":"you name it","ja":"どんなものでも"},{"id":"w_mtlesn3h_4cwtrh","en":"give an interview to〜","ja":"〜のインタビューに応じる"},{"id":"w_mtleyhbt_t3kpey","en":"pursue","ja":"続ける"},{"id":"w_mtmmybqa_9o1qdi","en":"soar to〜","ja":"〜まで急上昇する"},{"id":"w_mtmn2byx_l7caz2","en":"draw","ja":"引き出す | 取る"},{"id":"w_mtmn5cra_fxtr4n","en":"beneath","ja":"〜の下に"},{"id":"w_mtmn9b3t_pj241d","en":"call 〜 to mind","ja":"〜を連想させる"},{"id":"w_mtmnx1ft_10m8s4","en":"by no means","ja":"決して〜ではない"},{"id":"w_mtmnx1ft_6wqone","en":"be traced back to 〜","ja":"〜にまでたどることができる"},{"id":"w_mtmny058_ijfgg9","en":"arena","ja":"分野"},{"id":"w_mtmo00dq_1x8hvu","en":"take over","ja":"買収する"},{"id":"w_mtmo254c_ac9q8f","en":"variety","ja":"多様性"},{"id":"w_mtmoad7n_wj9je7","en":"feature","ja":"〜を特徴として持つ"},{"id":"w_mtmojbdz_02l9nd","en":"those with thick wallets","ja":"裕福な人"},{"id":"w_mtmok7m8_h3qnfq","en":"fool 人 into -ing","ja":"人を騙して〜させる"},{"id":"w_mtmpr3jz_5eoe69","en":"sport","ja":"娯楽"},{"id":"w_mtmrh7jl_e2q3qh","en":"estimate","ja":"見積もる"},{"id":"w_mtnoh4cl_ot1pfv","en":"ignite","ja":"火をつける | 奮起させる"},{"id":"w_mtnoh4cl_ruq0e2","en":"stir","ja":"奮起させる | 扇動する"},{"id":"w_mtnpjo95_rx4zvr","en":"body","ja":"天体"},{"id":"w_mtnpjo95_e4ynm2","en":"process","ja":"処理する"},{"id":"w_mtnqmk5e_csx38e","en":"spike","ja":"急増する"},{"id":"w_mtnqmk5e_70gnm2","en":"speak for those","ja":"〜な人々のために声を上げる"},{"id":"w_mtoadmn4_bi78ir","en":"property","ja":"性質"},{"id":"w_mtoah8ds_fzrqrl","en":"respectively","ja":"それぞれ"},{"id":"w_mtoajmi6_qfz80l","en":"mass","ja":"質量"},{"id":"w_mtoam5vu_kanulc","en":"rocky","ja":"岩でできた"},{"id":"w_mtpqeq6u_0n9fao","en":"rekindle","ja":"再びかき立てる"},{"id":"w_mtpqhl4c_2o1ns4","en":"go back to the drawing board","ja":"最初の段階に戻ってやり直す"},{"id":"w_mtpql3e5_je7voo","en":"ectotherm","ja":"外温動物"},{"id":"w_mtpql3e5_demdy0","en":"sluggard","ja":"怠け者"},{"id":"w_mtpql3e6_6b9stu","en":"bask in〜","ja":"(光などを)浴びる"},{"id":"w_mtpqonw3_iitnm9","en":"scaled-up","ja":"大きな"},{"id":"w_mtpqonw3_8j0wms","en":"drag","ja":"引きずる"},{"id":"w_mtpqonw3_83a3zz","en":"brute","ja":"猛獣"},{"id":"w_mtpqt46t_81eij5","en":"endortherm","ja":"内温動物"},{"id":"w_mtpqt46t_4bx58n","en":"regulate","ja":"調節する"},{"id":"w_mtpqxavv_m8l5mv","en":"spectrum","ja":"範囲"},{"id":"w_mtpqz955_uomokm","en":"tabulate","ja":"表にする"},{"id":"w_mtpr225l_7d57q9","en":"census","ja":"調査"},{"id":"w_mtpr225l_uy5pl6","en":"ostrich","ja":"ダチョウ"},{"id":"w_mtpr4pbc_xz7ele","en":"capitalize on〜","ja":"利用する"},{"id":"w_mtpr8ilx_eactik","en":"plot","ja":"考える"},{"id":"w_mtprdhfs_ullobt","en":"the heck","ja":"いったい(疑問詞の強調)"},{"id":"w_mtpri4fd_xr0df9","en":"stick to〜","ja":"〜に固執する | 〜し続ける"},{"id":"w_mtrui6dy_pm7klk","en":"nature","ja":"性質"},{"id":"w_mtruj5dq_l57p2k","en":"entrant","ja":"参加者"},{"id":"w_mtrun6zu_xc4lse","en":"entrust A to B","ja":"AをBに委託する"},{"id":"w_mtrupunl_9al4an","en":"swab","ja":"綿棒 | 消毒液"},{"id":"w_mtruylv9_oznnr8","en":"unduly","ja":"過度に"},{"id":"w_mtrvbax4_c4isp4","en":"terminal","ja":"末期の"},{"id":"w_mtrvfxwh_829tz2","en":"point the way","ja":"方向性を示す"},{"id":"w_mtrwggft_s5oxlg","en":"dissertation","ja":"論文"},{"id":"w_mtrwvwhp_p3yjk6","en":"tutor","ja":"家庭教師"},{"id":"w_mtrwvwhp_51czwo","en":"carry out","ja":"実行する"},{"id":"w_mtrxb4yh_jdajwq","en":"module","ja":"部分 | 単位"},{"id":"w_mts5kkqc_z80r77","en":"halve","ja":"半減する"},{"id":"w_mts5lspm_dk0wxk","en":"imperative","ja":"命令的な | 緊急の"},{"id":"w_mtta6dpc_k4cfu8","en":"asylum","ja":"亡命 | 避難 | 避難所"},{"id":"w_mtta7lex_yr6gdg","en":"in need of〜","ja":"〜を必要として"},{"id":"w_mttaci23_94xlre","en":"entity","ja":"実体、団体"},{"id":"w_mttak0ef_ccandl","en":"involve","ja":"関与させる"},{"id":"w_mttkqfz6_wxb5l9","en":"take along","ja":"連れていく"},{"id":"w_mttks8c7_osw971","en":"in the lead of〜","ja":"〜の先頭で"},{"id":"w_mttkxhro_ubgwk4","en":"avenue","ja":"道 | 手段"},{"id":"w_mttl4lzp_8a5exl","en":"spouse","ja":"配偶者"},{"id":"w_mttl4lzp_952um9","en":"assume","ja":"(役割などを)引き受ける"},{"id":"w_mttl7zmc_ftywgn","en":"normatively","ja":"規範的に"},{"id":"w_mttl7zmc_c1inye","en":"dependent","ja":"扶養される人 | 他人に頼って暮らす人"},{"id":"w_mttlb4qa_iinkqj","en":"distinction","ja":"区別 | 相違"},{"id":"w_mttunxgi_cpoaaw","en":"implication","ja":"影響"},{"id":"w_mttunxgi_f8wj88","en":"prolong","ja":"長引く"},{"id":"w_mttuz7bg_nv4j5h","en":"unaccompanied","ja":"単身の"},{"id":"w_mttuz7bg_ii018q","en":"minor","ja":"未成年者"},{"id":"w_mttv0uud_4oe56d","en":"ahead of〜","ja":"〜より先に"},{"id":"w_mttv9ruc_gnimn3","en":"lone","ja":"身寄りのない"},{"id":"w_mttvbk8s_0661g2","en":"名詞 combined","ja":"名詞の合計"},{"id":"w_mttvnr45_zkzcwv","en":"yield","ja":"もたらす"},{"id":"w_mttvs6fe_w1j09n","en":"state","ja":"国家"},{"id":"w_mttw1l17_lxq7xb","en":"exploitation","ja":"搾取"},{"id":"w_mtu00s1u_wx63yg","en":"the extent to which〜","ja":"どの程度〜か"},{"id":"w_mty4f5a5_vweisq","en":"lung","ja":"肺"},{"id":"w_mty4f5a5_3q8ivh","en":"reject","ja":"棄却する | 却下する"},{"id":"w_mty4f5a5_qsm3vr","en":"pronounce","ja":"宣告する"},{"id":"w_mty4f5a5_uu2eyz","en":"by virtue of 〜","ja":"〜のおかげで"},{"id":"w_mty4f5a5_i2kt9k","en":"critical care","ja":"救命救急治療"},{"id":"w_mty4f5a5_unx4tv","en":"dialysis","ja":"透析"},{"id":"w_mty4f5a5_v1ebo6","en":"kidneys","ja":"腎臓"},{"id":"w_mty4f5a5_03uxhe","en":"fledgling","ja":"未熟な"},{"id":"w_mty4f5a6_frlqq8","en":"indefinitely","ja":"無限に"},{"id":"w_mty4f5a6_q4fyqp","en":"agency","ja":"主体性"},{"id":"w_mty4f5a6_1lnxut","en":"grieving","ja":"悲しみ"},{"id":"w_mty4f5a6_1pfu1k","en":"cardiac","ja":"心臓の"},{"id":"w_mty4f5a6_7ohfr0","en":"be congruent with 〜","ja":"〜の一致している"},{"id":"w_mty4f5a6_wcan93","en":"perpetuate","ja":"永続させる"},{"id":"w_mty4h6fe_p7rrba","en":"nail-biting","ja":"ハラハラドキドキの"},{"id":"w_mty4idzr_mmk0l8","en":"landing","ja":"着陸"}];
-const INITIAL_STATS={"w_mt9j8tpx_m9uxrg":{"attempts":3,"correct":2,"wrong":1},"w_mtax9lrb_nd8vf4":{"attempts":6,"correct":4,"wrong":2},"w_mtawtpv6_got3a1":{"attempts":2,"correct":1,"wrong":1},"w_mtaxaxsc_3p1296":{"attempts":4,"correct":0,"wrong":4},"w_mt9jfpnb_0n837e":{"attempts":4,"correct":0,"wrong":4},"w_mtaxogj2_ykerro":{"attempts":2,"correct":0,"wrong":2},"w_mtaxa058_5z7k6q":{"attempts":2,"correct":1,"wrong":1},"w_mtax9e62_w4nfzn":{"attempts":3,"correct":1,"wrong":2},"w_mtaxv96p_riivy1":{"attempts":6,"correct":2,"wrong":4},"w_mtaxpana_vgvnx7":{"attempts":1,"correct":1,"wrong":0},"w_mt9hogsq_r1trjc":{"attempts":4,"correct":3,"wrong":1},"w_mtawul9q_i2lg4j":{"attempts":4,"correct":1,"wrong":3},"w_mtb09av7_hkxb97":{"attempts":4,"correct":0,"wrong":4},"w_mtfazxoi_60tzur":{"attempts":1,"correct":0,"wrong":1},"w_mtrupunl_9al4an":{"attempts":1,"correct":0,"wrong":1},"w_mtmo254c_ac9q8f":{"attempts":1,"correct":0,"wrong":1},"w_mtfbj7el_5tq7ob":{"attempts":1,"correct":0,"wrong":1},"w_mtrwvwhp_51czwo":{"attempts":1,"correct":1,"wrong":0},"w_mtc8o7pt_6w2gr0":{"attempts":2,"correct":2,"wrong":0},"w_mtoadmn4_bi78ir":{"attempts":1,"correct":0,"wrong":1},"w_mtfbqixn_s6x6in":{"attempts":1,"correct":0,"wrong":1},"w_mtnpjo95_e4ynm2":{"attempts":1,"correct":0,"wrong":1},"w_mtmrh7jl_e2q3qh":{"attempts":1,"correct":0,"wrong":1},"w_mtoajmi6_qfz80l":{"attempts":2,"correct":0,"wrong":2},"w_mtdvyq43_cpsd5x":{"attempts":1,"correct":0,"wrong":1},"w_mtoah8ds_fzrqrl":{"attempts":1,"correct":1,"wrong":0},"w_mtgy03sb_4zpivv":{"attempts":2,"correct":0,"wrong":2},"w_mtrui6dy_pm7klk":{"attempts":1,"correct":1,"wrong":0},"w_mtgy03sb_vlgsqs":{"attempts":1,"correct":0,"wrong":1},"w_mtgw7kty_c9c1x0":{"attempts":1,"correct":0,"wrong":1},"w_mtmnx1ft_10m8s4":{"attempts":2,"correct":0,"wrong":2},"w_mtgypffo_la1f6u":{"attempts":1,"correct":1,"wrong":0},"w_mtl7pqrl_di64ww":{"attempts":2,"correct":1,"wrong":1},"w_mttl4lzp_8a5exl":{"attempts":1,"correct":0,"wrong":1},"w_mtdxp9yv_tma106":{"attempts":1,"correct":0,"wrong":1},"w_mttkxhro_ubgwk4":{"attempts":1,"correct":0,"wrong":1},"w_mttl7zmc_ftywgn":{"attempts":2,"correct":2,"wrong":0},"w_mtmoad7n_wj9je7":{"attempts":2,"correct":1,"wrong":1},"w_mtibbtga_531ua4":{"attempts":1,"correct":0,"wrong":1},"w_mtnpjo95_rx4zvr":{"attempts":2,"correct":1,"wrong":1},"w_mtdqe0fi_4g7hy0":{"attempts":1,"correct":1,"wrong":0},"w_mtnoh4cl_ruq0e2":{"attempts":1,"correct":0,"wrong":1},"w_mtpqhl4c_2o1ns4":{"attempts":1,"correct":0,"wrong":1},"w_mtu00s1u_wx63yg":{"attempts":1,"correct":1,"wrong":0},"w_mtgwakem_rz398x":{"attempts":2,"correct":0,"wrong":2},"w_mtic776i_iey436":{"attempts":1,"correct":1,"wrong":0},"w_mtfbj7el_x23vpi":{"attempts":1,"correct":0,"wrong":1},"w_mttl7zmc_c1inye":{"attempts":1,"correct":1,"wrong":0},"w_mtruylv9_oznnr8":{"attempts":1,"correct":0,"wrong":1},"w_mtfazxoi_5e8926":{"attempts":1,"correct":0,"wrong":1},"w_mtc8xjiz_8h7wsl":{"attempts":1,"correct":0,"wrong":1},"w_mthv5il9_9ix3mj":{"attempts":1,"correct":1,"wrong":0},"w_mtmn2byx_l7caz2":{"attempts":1,"correct":0,"wrong":1},"w_mttlb4qa_iinkqj":{"attempts":1,"correct":0,"wrong":1},"w_mtpqonw3_iitnm9":{"attempts":1,"correct":1,"wrong":0},"w_mtfazxoi_lyw2yx":{"attempts":3,"correct":0,"wrong":3},"w_mtpqxavv_m8l5mv":{"attempts":1,"correct":0,"wrong":1},"w_mts5kkqc_z80r77":{"attempts":3,"correct":2,"wrong":1},"w_mtgy7yrw_nvcqxq":{"attempts":1,"correct":1,"wrong":0},"w_mtmo00dq_1x8hvu":{"attempts":1,"correct":0,"wrong":1},"w_mtgxxlhd_bm0j9a":{"attempts":1,"correct":0,"wrong":1},"w_mtpr225l_uy5pl6":{"attempts":1,"correct":1,"wrong":0},"w_mtcbarx0_leb56f":{"attempts":1,"correct":1,"wrong":0},"w_mtfazxoi_4y7ag9":{"attempts":1,"correct":0,"wrong":1},"w_mtdqe0fi_e0blwu":{"attempts":3,"correct":0,"wrong":3},"w_mtpql3e5_je7voo":{"attempts":1,"correct":0,"wrong":1},"w_mtl88z33_0nyue7":{"attempts":1,"correct":1,"wrong":0},"w_mtgyahfm_ihnymm":{"attempts":1,"correct":0,"wrong":1},"w_mtl8295p_cpk65t":{"attempts":1,"correct":0,"wrong":1},"w_mtl5uus7_wxovgn":{"attempts":1,"correct":1,"wrong":0},"w_mtgw4lfi_rst4cv":{"attempts":1,"correct":0,"wrong":1},"w_mtl7vpbr_fj6ds5":{"attempts":1,"correct":0,"wrong":1},"w_mtfazxoi_0r3cqz":{"attempts":1,"correct":0,"wrong":1},"w_mtc9xnhj_dmn6e2":{"attempts":1,"correct":0,"wrong":1},"w_mtpqz955_uomokm":{"attempts":2,"correct":2,"wrong":0},"w_mticd002_o9lfpj":{"attempts":1,"correct":0,"wrong":1},"w_mtpqt46t_81eij5":{"attempts":1,"correct":0,"wrong":1},"w_mtlesn3h_4cwtrh":{"attempts":1,"correct":1,"wrong":0},"w_mtfcha5q_k369wr":{"attempts":1,"correct":0,"wrong":1},"w_mtpqt46t_4bx58n":{"attempts":1,"correct":1,"wrong":0},"w_mtdqi55i_lf1z6k":{"attempts":1,"correct":0,"wrong":1},"w_mtc9qamy_c4orss":{"attempts":1,"correct":1,"wrong":0},"w_mtjnrmxp_9nef6f":{"attempts":1,"correct":1,"wrong":0},"w_mtl4xvy6_y649e6":{"attempts":1,"correct":0,"wrong":1},"w_mtc9o9t7_hj1prx":{"attempts":1,"correct":0,"wrong":1},"w_mtfazxoi_6rmko5":{"attempts":1,"correct":0,"wrong":1},"w_mtpqonw3_83a3zz":{"attempts":1,"correct":0,"wrong":1},"w_mticd002_x9plhn":{"attempts":1,"correct":0,"wrong":1},"w_mtc9o9t7_2zl4jk":{"attempts":1,"correct":0,"wrong":1},"w_mtdvu0zc_hycj8g":{"attempts":1,"correct":1,"wrong":0},"w_mtta7lex_yr6gdg":{"attempts":1,"correct":1,"wrong":0},"w_mtmny058_ijfgg9":{"attempts":1,"correct":0,"wrong":1},"w_mtrwvwhp_p3yjk6":{"attempts":1,"correct":0,"wrong":1},"w_mtpql3e5_demdy0":{"attempts":1,"correct":0,"wrong":1},"w_mtpr4pbc_xz7ele":{"attempts":1,"correct":0,"wrong":1},"w_mtgxm83n_yyvt1e":{"attempts":1,"correct":1,"wrong":0}};
-const WORD_KEY="longtext_words_v3";
-const STAT_KEY="longtext_stats_v3";
-let words,stats,quiz=[],pos=0,score=0,mode="all";
+const INITIAL_WORDS=[{"id":"w_mt9hogsq_r1trjc","word":"pave","meaning":"舗装する"},{"id":"w_mt9j8tpx_m9uxrg","word":"no longer","meaning":"もはや"},{"id":"w_mt9jfpnb_0n837e","word":"so much as","meaning":"(否定分で) 〜さえしない"},{"id":"w_mtawtpv6_got3a1","word":"lounge","meaning":"のんびり過ごす"},{"id":"w_mtawul9q_i2lg4j","word":"reclaim","meaning":"取り戻す"},{"id":"w_mtax9e62_w4nfzn","word":"garment","meaning":"衣服"},{"id":"w_mtax9lrb_nd8vf4","word":"attire","meaning":"服装"},{"id":"w_mtaxa058_5z7k6q","word":"attribute","meaning":"属性"},{"id":"w_mtaxaxsc_3p1296","word":"censure","meaning":"非難"},{"id":"w_mtaxogj2_ykerro","word":"spring","meaning":"跳ねる"},{"id":"w_mtaxpana_vgvnx7","word":"spur","meaning":"駆り立てる"},{"id":"w_mtaxv96p_riivy1","word":"be credited with 〜","meaning":"〜の功績がある"},{"id":"w_mtb06p3a_9hsdug","word":"tap","meaning":"蛇口"},{"id":"w_mtb09av7_hkxb97","word":"tap into","meaning":"利用する"},{"id":"w_mtb1ag17_rcs5l1","word":"cliff","meaning":"崖"},{"id":"w_mtb1bof4_efi0jk","word":"agitate","meaning":"動揺させる"},{"id":"w_mtc8o7pt_6w2gr0","word":"be faithful to〜","meaning":"〜に忠実な"},{"id":"w_mtc8xjiz_25bwcl","word":"side","meaning":"〜の側につく"},{"id":"w_mtc8xjiz_j2uidj","word":"dock","meaning":"(船)を埠頭につける"},{"id":"w_mtc8xjiz_w6yb50","word":"deserve","meaning":"値する"},{"id":"w_mtc8xjiz_8h7wsl","word":"relate","meaning":"述べる"},{"id":"w_mtc8z9ap_n53dde","word":"excessive","meaning":"過度の"},{"id":"w_mtc95jgr_oed0h2","word":"hang out","meaning":"遊ぶ"},{"id":"w_mtc9o9t7_7y4dqx","word":"stunning","meaning":"見事な"},{"id":"w_mtc9o9t7_ana1qn","word":"spectacled","meaning":"メガネをかけている"},{"id":"w_mtc9o9t7_hj1prx","word":"spectacular","meaning":"壮観な"},{"id":"w_mtc9o9t7_ruiikz","word":"spectating","meaning":"傍観している"},{"id":"w_mtc9o9t7_2zl4jk","word":"transcend","meaning":"超越する"},{"id":"w_mtc9o9t7_dy0uxo","word":"glare","meaning":"まぶしい光"},{"id":"w_mtc9o9t7_51mhjn","word":"dare","meaning":"挑戦"},{"id":"w_mtc9qamy_c4orss","word":"circular","meaning":"円形の、丸い"},{"id":"w_mtc9qamy_duck6n","word":"solar","meaning":"太陽の"},{"id":"w_mtc9xnhj_dmn6e2","word":"lurid","meaning":"赤く輝いている"},{"id":"w_mtcbarx0_leb56f","word":"anecdote","meaning":"逸話"},{"id":"w_mtdqe0fi_4g7hy0","word":"dwindle","meaning":"どんどん減る"},{"id":"w_mtdqe0fi_o4zc18","word":"deplete","meaning":"激減させる | 使い果たす"},{"id":"w_mtdqe0fi_e0blwu","word":"sedentary","meaning":"座りがちな | ほとんど体を動かさない"},{"id":"w_mtdqi55i_lf1z6k","word":"dwell","meaning":"存在する | 住む"},{"id":"w_mtdvp1or_lbkm3g","word":"gut","meaning":"腸"},{"id":"w_mtdvu0zc_hycj8g","word":"leading","meaning":"首位の"},{"id":"w_mtdvyq43_cpsd5x","word":"stool","meaning":"糞便"},{"id":"w_mtdvyq44_391d0k","word":"volunteer","meaning":"被験者"},{"id":"w_mtdwmk4y_snu6b1","word":"range from A to B","meaning":"AからBに渡る"},{"id":"w_mtdx1m2u_ir0qps","word":"specific","meaning":"特定の"},{"id":"w_mtdx4jtq_ix5zur","word":"antibiotics","meaning":"抗生物質"},{"id":"w_mtdx5qbq_uhrzg2","word":"voluntary","meaning":"自発的な"},{"id":"w_mtdxa48n_pbc0ai","word":"explore","meaning":"検討する | 探る"},{"id":"w_mtdxp9yv_tma106","word":"conversely","meaning":"逆に"},{"id":"w_mtdxtxpx_0hvwu2","word":"be active in〜","meaning":"〜で作用している"},{"id":"w_mtdy1s1i_8g3243","word":"physiology","meaning":"生理機能"},{"id":"w_mtfazxoi_6rmko5","word":"nothing but that","meaning":"それだけ"},{"id":"w_mtfazxoi_lyw2yx","word":"concerned with","meaning":"〜に影響を受けずに"},{"id":"w_mtfazxoi_5e8926","word":"plain","meaning":"簡素な | 地味な | 無地の | 明白な"},{"id":"w_mtfazxoi_0r3cqz","word":"peddle","meaning":"〜を植え付ける"},{"id":"w_mtfazxoi_4y7ag9","word":"retailer","meaning":"小売業者"},{"id":"w_mtfazxoi_di6he2","word":"vulnerable","meaning":"〜の的となりやすい"},{"id":"w_mtfazxoi_60tzur","word":"lead","meaning":"主人公"},{"id":"w_mtfazxoi_g2bf6u","word":"gendered","meaning":"男女を区別した"},{"id":"w_mtfazxoj_r29upt","word":"discrimination","meaning":"差別"},{"id":"w_mtfb4gad_kr85f6","word":"horizon","meaning":"視野"},{"id":"w_mtfbj7el_x23vpi","word":"quite likely","meaning":"おそらく〜だろう"},{"id":"w_mtfbj7el_5tq7ob","word":"massive","meaning":"大きな"},{"id":"w_mtfbn6ws_ni8rho","word":"lazy","meaning":"怠けている"},{"id":"w_mtfbn6ws_02fpah","word":"predictably","meaning":"予想される"},{"id":"w_mtfbqixn_s6x6in","word":"slap","meaning":"つける | 貼る"},{"id":"w_mtfcha5q_k369wr","word":"onwards","meaning":"先へ"},{"id":"w_mtgoncdr_vtvn1y","word":"commitment","meaning":"約束"},{"id":"w_mtgvsmsl_pq56iv","word":"incentivize","meaning":"動機づける | 奨励する"},{"id":"w_mtgvsmsl_knpnc2","word":"introduce a bill","meaning":"法案を提出する"},{"id":"w_mtgw4lfi_rst4cv","word":"outlook","meaning":"見方 | 気分"},{"id":"w_mtgw7kty_c9c1x0","word":"be engaged with〜","meaning":"〜に関わる | 没頭する"},{"id":"w_mtgwakem_rz398x","word":"overhead expense","meaning":"経費"},{"id":"w_mtgwakem_h491zx","word":"add up","meaning":"積み重なる"},{"id":"w_mtgxi8gi_uib1f8","word":"manageable","meaning":"管理できる"},{"id":"w_mtgxi8gi_9uycus","word":"workload","meaning":"仕事量"},{"id":"w_mtgxi8gi_g2utbw","word":"reasonable","meaning":"理にかなった | 妥当な"},{"id":"w_mtgxm83n_yyvt1e","word":"burnout","meaning":"燃え尽き症候群"},{"id":"w_mtgxxlhd_bm0j9a","word":"fall behind","meaning":"後れをとる"},{"id":"w_mtgy03sb_vlgsqs","word":"afloat","meaning":"浮いた"},{"id":"w_mtgy03sb_4zpivv","word":"stay afloat","meaning":"やりくりする"},{"id":"w_mtgy7yrw_nvcqxq","word":"diligent","meaning":"勤勉な | 慎重な"},{"id":"w_mtgyahfm_ihnymm","word":"honor the time","meaning":"設定した時間を守る"},{"id":"w_mtgypffo_vsp6ot","word":"yet another","meaning":"さらにもう１つの"},{"id":"w_mtgypffo_la1f6u","word":"vice","meaning":"副〜"},{"id":"w_mtgyyghs_gd21xs","word":"resentful","meaning":"不満を抱く"},{"id":"w_mtgyyghs_m5icve","word":"short-changed","meaning":"損をした気分の"},{"id":"w_mtgz9p5g_ntto2m","word":"description","meaning":"説明"},{"id":"w_mtgzw3eh_gmwx56","word":"align with〜","meaning":"〜と一致する"},{"id":"w_mtgzw3eh_u4k3n0","word":"thoroughly","meaning":"徹底的に"},{"id":"w_mthv5il9_9ix3mj","word":"dominant hand","meaning":"利き手"},{"id":"w_mthvigma_6ovnrp","word":"spoken language","meaning":"話し言葉"},{"id":"w_mthvigma_gazulq","word":"speech","meaning":"話し言葉"},{"id":"w_mtibae9z_9a51s9","word":"foremost","meaning":"重要な"},{"id":"w_mtibbtga_531ua4","word":"discrete","meaning":"別々の"},{"id":"w_mtibe7ch_g3zlv1","word":"it turns out that〜","meaning":"〜だと判明する"},{"id":"w_mtibyxtg_lgg4wp","word":"fire","meaning":"活動する"},{"id":"w_mtic776i_iey436","word":"empathize","meaning":"共感する"},{"id":"w_mticd002_x9plhn","word":"incongruent","meaning":"調和しない"},{"id":"w_mticd002_o9lfpj","word":"dissonance","meaning":"不協和音"},{"id":"w_mtjnrmxp_nr4uc1","word":"thorough","meaning":"徹底的な"},{"id":"w_mtjnrmxp_9nef6f","word":"correlate with〜","meaning":"〜と相関関係のある"},{"id":"w_mtjoi64m_v81ico","word":"Communism","meaning":"共産主義"},{"id":"w_mtjoi64m_qj1w5g","word":"capitalism","meaning":"資本主義"},{"id":"w_mtjojqgy_bymp3q","word":"control for〜","meaning":"〜を考慮に入れる"},{"id":"w_mtkpsx89_19oc2u","word":"endeavor","meaning":"試み/事業"},{"id":"w_mtkpwc24_96f3uk","word":"have pity on〜","meaning":"〜に同情を示す"},{"id":"w_mtkpzss2_ahweg5","word":"at once","meaning":"すぐに/同時に"},{"id":"w_mtl4xvy6_y649e6","word":"plagiarism","meaning":"盗作"},{"id":"w_mtl4xvy6_d1l7ot","word":"idly","meaning":"ぼんやりと"},{"id":"w_mtl5rycx_xchq6r","word":"discipline","meaning":"学問/分野"},{"id":"w_mtl5uus7_wxovgn","word":"dimensional","meaning":"次元の"},{"id":"w_mtl5xt81_0roizk","word":"play with〜","meaning":"〜をいじる"},{"id":"w_mtl6c92s_iatmwh","word":"play around with〜","meaning":"〜を気軽にいじる"},{"id":"w_mtl6c92s_uwc41h","word":"in the works","meaning":"計画中で | 進行中で"},{"id":"w_mtl6c92s_96se0c","word":"〜and so forth","meaning":"〜など"},{"id":"w_mtl7e21s_vrvotk","word":"go through〜","meaning":"〜を経験する"},{"id":"w_mtl7e21s_xvjxn5","word":"identical","meaning":"同一の\\全く同じ"},{"id":"w_mtl7jdzr_aexx41","word":"part company","meaning":"別れる"},{"id":"w_mtl7pqrl_et7nv9","word":"composition","meaning":"作曲"},{"id":"w_mtl7pqrl_di64ww","word":"from scratch","meaning":"最初から | ゼロから"},{"id":"w_mtl7vpbr_fj6ds5","word":"quotient","meaning":"指数"},{"id":"w_mtl8295p_cpk65t","word":"set〜apart","meaning":"〜を際立たせる"},{"id":"w_mtl85g65_2wi0ad","word":"playful","meaning":"遊び心ある"},{"id":"w_mtl88z33_0nyue7","word":"you name it","meaning":"どんなものでも"},{"id":"w_mtlesn3h_4cwtrh","word":"give an interview to〜","meaning":"〜のインタビューに応じる"},{"id":"w_mtleyhbt_t3kpey","word":"pursue","meaning":"続ける"},{"id":"w_mtmmybqa_9o1qdi","word":"soar to〜","meaning":"〜まで急上昇する"},{"id":"w_mtmn2byx_l7caz2","word":"draw","meaning":"引き出す | 取る"},{"id":"w_mtmn5cra_fxtr4n","word":"beneath","meaning":"〜の下に"},{"id":"w_mtmn9b3t_pj241d","word":"call 〜 to mind","meaning":"〜を連想させる"},{"id":"w_mtmnx1ft_10m8s4","word":"by no means","meaning":"決して〜ではない"},{"id":"w_mtmnx1ft_6wqone","word":"be traced back to 〜","meaning":"〜にまでたどることができる"},{"id":"w_mtmny058_ijfgg9","word":"arena","meaning":"分野"},{"id":"w_mtmo00dq_1x8hvu","word":"take over","meaning":"買収する"},{"id":"w_mtmo254c_ac9q8f","word":"variety","meaning":"多様性"},{"id":"w_mtmoad7n_wj9je7","word":"feature","meaning":"〜を特徴として持つ"},{"id":"w_mtmojbdz_02l9nd","word":"those with thick wallets","meaning":"裕福な人"},{"id":"w_mtmok7m8_h3qnfq","word":"fool 人 into -ing","meaning":"人を騙して〜させる"},{"id":"w_mtmpr3jz_5eoe69","word":"sport","meaning":"娯楽"},{"id":"w_mtmrh7jl_e2q3qh","word":"estimate","meaning":"見積もる"},{"id":"w_mtnoh4cl_ot1pfv","word":"ignite","meaning":"火をつける | 奮起させる"},{"id":"w_mtnoh4cl_ruq0e2","word":"stir","meaning":"奮起させる | 扇動する"},{"id":"w_mtnpjo95_rx4zvr","word":"body","meaning":"天体"},{"id":"w_mtnpjo95_e4ynm2","word":"process","meaning":"処理する"},{"id":"w_mtnqmk5e_csx38e","word":"spike","meaning":"急増する"},{"id":"w_mtnqmk5e_70gnm2","word":"speak for those","meaning":"〜な人々のために声を上げる"},{"id":"w_mtoadmn4_bi78ir","word":"property","meaning":"性質"},{"id":"w_mtoah8ds_fzrqrl","word":"respectively","meaning":"それぞれ"},{"id":"w_mtoajmi6_qfz80l","word":"mass","meaning":"質量"},{"id":"w_mtoam5vu_kanulc","word":"rocky","meaning":"岩でできた"},{"id":"w_mtpqeq6u_0n9fao","word":"rekindle","meaning":"再びかき立てる"},{"id":"w_mtpqhl4c_2o1ns4","word":"go back to the drawing board","meaning":"最初の段階に戻ってやり直す"},{"id":"w_mtpql3e5_je7voo","word":"ectotherm","meaning":"外温動物"},{"id":"w_mtpql3e5_demdy0","word":"sluggard","meaning":"怠け者"},{"id":"w_mtpql3e6_6b9stu","word":"bask in〜","meaning":"(光などを)浴びる"},{"id":"w_mtpqonw3_iitnm9","word":"scaled-up","meaning":"大きな"},{"id":"w_mtpqonw3_8j0wms","word":"drag","meaning":"引きずる"},{"id":"w_mtpqonw3_83a3zz","word":"brute","meaning":"猛獣"},{"id":"w_mtpqt46t_81eij5","word":"endortherm","meaning":"内温動物"},{"id":"w_mtpqt46t_4bx58n","word":"regulate","meaning":"調節する"},{"id":"w_mtpqxavv_m8l5mv","word":"spectrum","meaning":"範囲"},{"id":"w_mtpqz955_uomokm","word":"tabulate","meaning":"表にする"},{"id":"w_mtpr225l_7d57q9","word":"census","meaning":"調査"},{"id":"w_mtpr225l_uy5pl6","word":"ostrich","meaning":"ダチョウ"},{"id":"w_mtpr4pbc_xz7ele","word":"capitalize on〜","meaning":"利用する"},{"id":"w_mtpr8ilx_eactik","word":"plot","meaning":"考える"},{"id":"w_mtprdhfs_ullobt","word":"the heck","meaning":"いったい(疑問詞の強調)"},{"id":"w_mtpri4fd_xr0df9","word":"stick to〜","meaning":"〜に固執する | 〜し続ける"},{"id":"w_mtrui6dy_pm7klk","word":"nature","meaning":"性質"},{"id":"w_mtruj5dq_l57p2k","word":"entrant","meaning":"参加者"},{"id":"w_mtrun6zu_xc4lse","word":"entrust A to B","meaning":"AをBに委託する"},{"id":"w_mtrupunl_9al4an","word":"swab","meaning":"綿棒 | 消毒液"},{"id":"w_mtruylv9_oznnr8","word":"unduly","meaning":"過度に"},{"id":"w_mtrvbax4_c4isp4","word":"terminal","meaning":"末期の"},{"id":"w_mtrvfxwh_829tz2","word":"point the way","meaning":"方向性を示す"},{"id":"w_mtrwggft_s5oxlg","word":"dissertation","meaning":"論文"},{"id":"w_mtrwvwhp_p3yjk6","word":"tutor","meaning":"家庭教師"},{"id":"w_mtrwvwhp_51czwo","word":"carry out","meaning":"実行する"},{"id":"w_mtrxb4yh_jdajwq","word":"module","meaning":"部分 | 単位"},{"id":"w_mts5kkqc_z80r77","word":"halve","meaning":"半減する"},{"id":"w_mts5lspm_dk0wxk","word":"imperative","meaning":"命令的な | 緊急の"},{"id":"w_mtta6dpc_k4cfu8","word":"asylum","meaning":"亡命 | 避難 | 避難所"},{"id":"w_mtta7lex_yr6gdg","word":"in need of〜","meaning":"〜を必要として"},{"id":"w_mttaci23_94xlre","word":"entity","meaning":"実体、団体"},{"id":"w_mttak0ef_ccandl","word":"involve","meaning":"関与させる"},{"id":"w_mttkqfz6_wxb5l9","word":"take along","meaning":"連れていく"},{"id":"w_mttks8c7_osw971","word":"in the lead of〜","meaning":"〜の先頭で"},{"id":"w_mttkxhro_ubgwk4","word":"avenue","meaning":"道 | 手段"},{"id":"w_mttl4lzp_8a5exl","word":"spouse","meaning":"配偶者"},{"id":"w_mttl4lzp_952um9","word":"assume","meaning":"(役割などを)引き受ける"},{"id":"w_mttl7zmc_ftywgn","word":"normatively","meaning":"規範的に"},{"id":"w_mttl7zmc_c1inye","word":"dependent","meaning":"扶養される人 | 他人に頼って暮らす人"},{"id":"w_mttlb4qa_iinkqj","word":"distinction","meaning":"区別 | 相違"},{"id":"w_mttunxgi_cpoaaw","word":"implication","meaning":"影響"},{"id":"w_mttunxgi_f8wj88","word":"prolong","meaning":"長引く"},{"id":"w_mttuz7bg_nv4j5h","word":"unaccompanied","meaning":"単身の"},{"id":"w_mttuz7bg_ii018q","word":"minor","meaning":"未成年者"},{"id":"w_mttv0uud_4oe56d","word":"ahead of〜","meaning":"〜より先に"},{"id":"w_mttv9ruc_gnimn3","word":"lone","meaning":"身寄りのない"},{"id":"w_mttvbk8s_0661g2","word":"名詞 combined","meaning":"名詞の合計"},{"id":"w_mttvnr45_zkzcwv","word":"yield","meaning":"もたらす"},{"id":"w_mttvs6fe_w1j09n","word":"state","meaning":"国家"},{"id":"w_mttw1l17_lxq7xb","word":"exploitation","meaning":"搾取"},{"id":"w_mtu00s1u_wx63yg","word":"the extent to which〜","meaning":"どの程度〜か"},{"id":"w_mty4f5a5_vweisq","word":"lung","meaning":"肺"},{"id":"w_mty4f5a5_3q8ivh","word":"reject","meaning":"棄却する | 却下する"},{"id":"w_mty4f5a5_qsm3vr","word":"pronounce","meaning":"宣告する"},{"id":"w_mty4f5a5_uu2eyz","word":"by virtue of 〜","meaning":"〜のおかげで"},{"id":"w_mty4f5a5_i2kt9k","word":"critical care","meaning":"救命救急治療"},{"id":"w_mty4f5a5_unx4tv","word":"dialysis","meaning":"透析"},{"id":"w_mty4f5a5_v1ebo6","word":"kidneys","meaning":"腎臓"},{"id":"w_mty4f5a5_03uxhe","word":"fledgling","meaning":"未熟な"},{"id":"w_mty4f5a6_frlqq8","word":"indefinitely","meaning":"無限に"},{"id":"w_mty4f5a6_q4fyqp","word":"agency","meaning":"主体性"},{"id":"w_mty4f5a6_1lnxut","word":"grieving","meaning":"悲しみ"},{"id":"w_mty4f5a6_1pfu1k","word":"cardiac","meaning":"心臓の"},{"id":"w_mty4f5a6_7ohfr0","word":"be congruent with 〜","meaning":"〜の一致している"},{"id":"w_mty4f5a6_wcan93","word":"perpetuate","meaning":"永続させる"},{"id":"w_mty4h6fe_p7rrba","word":"nail-biting","meaning":"ハラハラドキドキの"},{"id":"w_mty4idzr_mmk0l8","word":"landing","meaning":"着陸"},{"id":"w_mtz7ag6l_o207cj","word":"liken A to B","meaning":"AをBに例える"},{"id":"w_mtz7bieg_s0t7yz","word":"be likened to〜","meaning":"〜に例えられる"},{"id":"w_mtz88exo_02gt6t","word":"vessel","meaning":"船"},{"id":"w_mtz8hl56_edqicx","word":"one's fair share","meaning":"公平な取り分"},{"id":"w_mtz8hl56_88fetu","word":"waters","meaning":"水域"},{"id":"w_mtz8ivw2_o0ogoc","word":"finance","meaning":"融資"},{"id":"w_mtz90s99_33hkek","word":"gratification","meaning":"満足"},{"id":"w_mtz9ixul_o19y7n","word":"take ownership of 〜","meaning":"〜の責任をとる 〜を自分のものにする"},{"id":"w_mtz9txko_a8k44e","word":"ditched","meaning":"捨てる"},{"id":"w_mtzb8nko_nqcdd4","word":"learn to 〜","meaning":"〜するようになる できるようになる"},{"id":"w_mtzb8nko_ajn4at","word":"albeit","meaning":"〜だけれども、〜にも関わらず、たとえ〜でも"},{"id":"w_mtzuh2sr_nyu6bl","word":"stand at 〜","meaning":"(数字が)〜である、〜を示す"},{"id":"w_mtzvaje5_0wsths","word":"ingrain","meaning":"染み込ませる"},{"id":"w_mtzvaje5_qz4mh1","word":"embed","meaning":"埋め込む"},{"id":"w_mtzvaje5_z5al6z","word":"X be no exception","meaning":"Xも例外ではない"},{"id":"w_mtzvaje5_ixc72s","word":"make generalization","meaning":"一般化する"},{"id":"w_mtzwgmhv_wtk2k8","word":"exhilarating","meaning":"陽気にさせる 爽快な"},{"id":"w_mtzwgmhv_l0bxqn","word":"eschew","meaning":"避ける"},{"id":"w_mtzwgmhv_eq1i8q","word":"treacherous","meaning":"危険な"},{"id":"w_mtzwgmhv_rsvmjk","word":"sporadic","meaning":"散発的な"},{"id":"w_mtzwgmhv_zy72m8","word":"fervently","meaning":"熱心に"},{"id":"w_mtzwgmhv_kl6bmg","word":"rampant","meaning":"蔓延って 蔓延して"},{"id":"w_mtzwgmhv_cj3m80","word":"make … efforts irrelevant","meaning":"…な努力を無意味なものにする"},{"id":"w_mtzwgmhv_w5ayqb","word":"render…efforts irrelevant","meaning":"…な努力を無意味なものにする"},{"id":"w_mtzwgmhv_l1qepb","word":"impertinent","meaning":"生意気な 図々しい"},{"id":"w_mtzwgmhv_jtq2na","word":"usher in 〜","meaning":"〜をもたらす"},{"id":"w_mtzwgmhv_kiripi","word":"underscore","meaning":"強調する"},{"id":"w_mtzwgmhv_e78iex","word":"panacea","meaning":"万能の解決策"},{"id":"w_mtzwgmhv_x99xj8","word":"elixir","meaning":"万能の特効薬"},{"id":"w_mtzwgmhv_5l4355","word":"catapult","meaning":"発射機 勢いよく飛ばす"},{"id":"w_mtzwgmhv_yzi9m1","word":"cascade","meaning":"小さな滝 流れ落ちる水"},{"id":"w_mtzwgmhv_wgitbd","word":"gregarious","meaning":"社交的な"},{"id":"w_mtzwgmhv_5zg0g9","word":"dire","meaning":"悲惨な 深刻な 差し迫った"},{"id":"w_mtzwgmhv_j87r9e","word":"banal","meaning":"平凡な 陳腐な"},{"id":"w_mtzwgmhv_nd6wmx","word":"icy","meaning":"凍っている"},{"id":"w_mu0nztb5_zvzfsh","word":"voter turnout","meaning":"投票率"},{"id":"w_mu4yeqf6_3mwv0n","word":"grip with 〜","meaning":"〜に取り組む"},{"id":"w_mu51nult_6l696g","word":"proponent","meaning":"支持者"},{"id":"w_mu51nult_8iufr6","word":"opponent","meaning":"対戦相手"}];
+const INITIAL_STATS={"w_mt9j8tpx_m9uxrg":{"attempts":3,"correct":2,"wrong":1},"w_mtax9lrb_nd8vf4":{"attempts":6,"correct":4,"wrong":2},"w_mtawtpv6_got3a1":{"attempts":2,"correct":1,"wrong":1},"w_mtaxaxsc_3p1296":{"attempts":4,"correct":0,"wrong":4},"w_mt9jfpnb_0n837e":{"attempts":6,"correct":0,"wrong":6},"w_mtaxogj2_ykerro":{"attempts":3,"correct":0,"wrong":3},"w_mtaxa058_5z7k6q":{"attempts":3,"correct":1,"wrong":2},"w_mtax9e62_w4nfzn":{"attempts":4,"correct":1,"wrong":3},"w_mtaxv96p_riivy1":{"attempts":8,"correct":4,"wrong":4},"w_mtaxpana_vgvnx7":{"attempts":1,"correct":1,"wrong":0},"w_mt9hogsq_r1trjc":{"attempts":5,"correct":4,"wrong":1},"w_mtawul9q_i2lg4j":{"attempts":4,"correct":1,"wrong":3},"w_mtb09av7_hkxb97":{"attempts":4,"correct":0,"wrong":4},"w_mtfazxoi_60tzur":{"attempts":1,"correct":0,"wrong":1},"w_mtrupunl_9al4an":{"attempts":2,"correct":0,"wrong":2},"w_mtmo254c_ac9q8f":{"attempts":1,"correct":0,"wrong":1},"w_mtfbj7el_5tq7ob":{"attempts":1,"correct":0,"wrong":1},"w_mtrwvwhp_51czwo":{"attempts":1,"correct":1,"wrong":0},"w_mtc8o7pt_6w2gr0":{"attempts":3,"correct":3,"wrong":0},"w_mtoadmn4_bi78ir":{"attempts":2,"correct":0,"wrong":2},"w_mtfbqixn_s6x6in":{"attempts":2,"correct":0,"wrong":2},"w_mtnpjo95_e4ynm2":{"attempts":2,"correct":0,"wrong":2},"w_mtmrh7jl_e2q3qh":{"attempts":1,"correct":0,"wrong":1},"w_mtoajmi6_qfz80l":{"attempts":3,"correct":0,"wrong":3},"w_mtdvyq43_cpsd5x":{"attempts":1,"correct":0,"wrong":1},"w_mtoah8ds_fzrqrl":{"attempts":1,"correct":1,"wrong":0},"w_mtgy03sb_4zpivv":{"attempts":4,"correct":0,"wrong":4},"w_mtrui6dy_pm7klk":{"attempts":1,"correct":1,"wrong":0},"w_mtgy03sb_vlgsqs":{"attempts":1,"correct":0,"wrong":1},"w_mtgw7kty_c9c1x0":{"attempts":3,"correct":0,"wrong":3},"w_mtmnx1ft_10m8s4":{"attempts":3,"correct":0,"wrong":3},"w_mtgypffo_la1f6u":{"attempts":2,"correct":2,"wrong":0},"w_mtl7pqrl_di64ww":{"attempts":3,"correct":2,"wrong":1},"w_mttl4lzp_8a5exl":{"attempts":1,"correct":0,"wrong":1},"w_mtdxp9yv_tma106":{"attempts":1,"correct":0,"wrong":1},"w_mttkxhro_ubgwk4":{"attempts":1,"correct":0,"wrong":1},"w_mttl7zmc_ftywgn":{"attempts":3,"correct":3,"wrong":0},"w_mtmoad7n_wj9je7":{"attempts":3,"correct":2,"wrong":1},"w_mtibbtga_531ua4":{"attempts":1,"correct":0,"wrong":1},"w_mtnpjo95_rx4zvr":{"attempts":2,"correct":1,"wrong":1},"w_mtdqe0fi_4g7hy0":{"attempts":1,"correct":1,"wrong":0},"w_mtnoh4cl_ruq0e2":{"attempts":2,"correct":0,"wrong":2},"w_mtpqhl4c_2o1ns4":{"attempts":2,"correct":1,"wrong":1},"w_mtu00s1u_wx63yg":{"attempts":2,"correct":2,"wrong":0},"w_mtgwakem_rz398x":{"attempts":3,"correct":0,"wrong":3},"w_mtic776i_iey436":{"attempts":2,"correct":2,"wrong":0},"w_mtfbj7el_x23vpi":{"attempts":2,"correct":0,"wrong":2},"w_mttl7zmc_c1inye":{"attempts":1,"correct":1,"wrong":0},"w_mtruylv9_oznnr8":{"attempts":1,"correct":0,"wrong":1},"w_mtfazxoi_5e8926":{"attempts":1,"correct":0,"wrong":1},"w_mtc8xjiz_8h7wsl":{"attempts":1,"correct":0,"wrong":1},"w_mthv5il9_9ix3mj":{"attempts":1,"correct":1,"wrong":0},"w_mtmn2byx_l7caz2":{"attempts":1,"correct":0,"wrong":1},"w_mttlb4qa_iinkqj":{"attempts":1,"correct":0,"wrong":1},"w_mtpqonw3_iitnm9":{"attempts":1,"correct":1,"wrong":0},"w_mtfazxoi_lyw2yx":{"attempts":3,"correct":0,"wrong":3},"w_mtpqxavv_m8l5mv":{"attempts":1,"correct":0,"wrong":1},"w_mts5kkqc_z80r77":{"attempts":5,"correct":4,"wrong":1},"w_mtgy7yrw_nvcqxq":{"attempts":1,"correct":1,"wrong":0},"w_mtmo00dq_1x8hvu":{"attempts":1,"correct":0,"wrong":1},"w_mtgxxlhd_bm0j9a":{"attempts":1,"correct":0,"wrong":1},"w_mtpr225l_uy5pl6":{"attempts":1,"correct":1,"wrong":0},"w_mtcbarx0_leb56f":{"attempts":1,"correct":1,"wrong":0},"w_mtfazxoi_4y7ag9":{"attempts":1,"correct":0,"wrong":1},"w_mtdqe0fi_e0blwu":{"attempts":4,"correct":0,"wrong":4},"w_mtpql3e5_je7voo":{"attempts":1,"correct":0,"wrong":1},"w_mtl88z33_0nyue7":{"attempts":1,"correct":1,"wrong":0},"w_mtgyahfm_ihnymm":{"attempts":1,"correct":0,"wrong":1},"w_mtl8295p_cpk65t":{"attempts":1,"correct":0,"wrong":1},"w_mtl5uus7_wxovgn":{"attempts":2,"correct":2,"wrong":0},"w_mtgw4lfi_rst4cv":{"attempts":3,"correct":0,"wrong":3},"w_mtl7vpbr_fj6ds5":{"attempts":2,"correct":0,"wrong":2},"w_mtfazxoi_0r3cqz":{"attempts":2,"correct":0,"wrong":2},"w_mtc9xnhj_dmn6e2":{"attempts":3,"correct":0,"wrong":3},"w_mtpqz955_uomokm":{"attempts":3,"correct":3,"wrong":0},"w_mticd002_o9lfpj":{"attempts":1,"correct":0,"wrong":1},"w_mtpqt46t_81eij5":{"attempts":2,"correct":0,"wrong":2},"w_mtlesn3h_4cwtrh":{"attempts":2,"correct":2,"wrong":0},"w_mtfcha5q_k369wr":{"attempts":2,"correct":0,"wrong":2},"w_mtpqt46t_4bx58n":{"attempts":1,"correct":1,"wrong":0},"w_mtdqi55i_lf1z6k":{"attempts":3,"correct":1,"wrong":2},"w_mtc9qamy_c4orss":{"attempts":3,"correct":2,"wrong":1},"w_mtjnrmxp_9nef6f":{"attempts":1,"correct":1,"wrong":0},"w_mtl4xvy6_y649e6":{"attempts":2,"correct":0,"wrong":2},"w_mtc9o9t7_hj1prx":{"attempts":2,"correct":1,"wrong":1},"w_mtfazxoi_6rmko5":{"attempts":1,"correct":0,"wrong":1},"w_mtpqonw3_83a3zz":{"attempts":1,"correct":0,"wrong":1},"w_mticd002_x9plhn":{"attempts":1,"correct":0,"wrong":1},"w_mtc9o9t7_2zl4jk":{"attempts":1,"correct":0,"wrong":1},"w_mtdvu0zc_hycj8g":{"attempts":1,"correct":1,"wrong":0},"w_mtta7lex_yr6gdg":{"attempts":2,"correct":2,"wrong":0},"w_mtmny058_ijfgg9":{"attempts":2,"correct":0,"wrong":2},"w_mtrwvwhp_p3yjk6":{"attempts":1,"correct":0,"wrong":1},"w_mtpql3e5_demdy0":{"attempts":2,"correct":0,"wrong":2},"w_mtpr4pbc_xz7ele":{"attempts":2,"correct":0,"wrong":2},"w_mtgxm83n_yyvt1e":{"attempts":2,"correct":2,"wrong":0},"w_mtrxb4yh_jdajwq":{"attempts":2,"correct":0,"wrong":2},"w_mtz7bieg_s0t7yz":{"attempts":3,"correct":1,"wrong":2},"w_mttunxgi_cpoaaw":{"attempts":5,"correct":5,"wrong":0},"w_mttv0uud_4oe56d":{"attempts":1,"correct":0,"wrong":1},"w_mtzb8nko_nqcdd4":{"attempts":1,"correct":1,"wrong":0},"w_mtibae9z_9a51s9":{"attempts":1,"correct":0,"wrong":1},"w_mty4idzr_mmk0l8":{"attempts":1,"correct":1,"wrong":0},"w_mtmn9b3t_pj241d":{"attempts":2,"correct":0,"wrong":2},"w_mtzwgmhv_kl6bmg":{"attempts":1,"correct":0,"wrong":1},"w_mtkpwc24_96f3uk":{"attempts":2,"correct":0,"wrong":2},"w_mty4f5a6_1lnxut":{"attempts":1,"correct":1,"wrong":0},"w_mtzwgmhv_rsvmjk":{"attempts":1,"correct":0,"wrong":1},"w_mtgxi8gi_g2utbw":{"attempts":1,"correct":0,"wrong":1},"w_mtzwgmhv_5zg0g9":{"attempts":1,"correct":0,"wrong":1},"w_mtjnrmxp_nr4uc1":{"attempts":1,"correct":1,"wrong":0},"w_mtl7pqrl_et7nv9":{"attempts":1,"correct":0,"wrong":1},"w_mty4h6fe_p7rrba":{"attempts":1,"correct":1,"wrong":0},"w_mtzwgmhv_5l4355":{"attempts":2,"correct":0,"wrong":2},"w_mtl6c92s_iatmwh":{"attempts":1,"correct":0,"wrong":1},"w_mtibe7ch_g3zlv1":{"attempts":2,"correct":2,"wrong":0},"w_mtzwgmhv_j87r9e":{"attempts":2,"correct":0,"wrong":2},"w_mtc9o9t7_7y4dqx":{"attempts":2,"correct":0,"wrong":2},"w_mtzwgmhv_l1qepb":{"attempts":1,"correct":0,"wrong":1},"w_mttunxgi_f8wj88":{"attempts":1,"correct":1,"wrong":0},"w_mthvigma_gazulq":{"attempts":1,"correct":0,"wrong":1},"w_mtl7jdzr_aexx41":{"attempts":1,"correct":1,"wrong":0},"w_mtfbn6ws_ni8rho":{"attempts":1,"correct":0,"wrong":1},"w_mtmn5cra_fxtr4n":{"attempts":1,"correct":0,"wrong":1},"w_mthvigma_6ovnrp":{"attempts":3,"correct":3,"wrong":0},"w_mtzwgmhv_w5ayqb":{"attempts":1,"correct":1,"wrong":0},"w_mtzwgmhv_kiripi":{"attempts":2,"correct":0,"wrong":2},"w_mtdvp1or_lbkm3g":{"attempts":2,"correct":1,"wrong":1},"w_mtrwggft_s5oxlg":{"attempts":2,"correct":0,"wrong":2},"w_mtfazxoi_g2bf6u":{"attempts":1,"correct":0,"wrong":1},"w_mtjoi64m_v81ico":{"attempts":2,"correct":1,"wrong":1},"w_mtzwgmhv_zy72m8":{"attempts":1,"correct":0,"wrong":1},"w_mtgz9p5g_ntto2m":{"attempts":1,"correct":0,"wrong":1},"w_mtmpr3jz_5eoe69":{"attempts":2,"correct":1,"wrong":1},"w_mtgvsmsl_pq56iv":{"attempts":1,"correct":0,"wrong":1},"w_mtfazxoj_r29upt":{"attempts":2,"correct":1,"wrong":1},"w_mtc9qamy_duck6n":{"attempts":3,"correct":3,"wrong":0},"w_mtfbn6ws_02fpah":{"attempts":1,"correct":0,"wrong":1},"w_mtpql3e6_6b9stu":{"attempts":1,"correct":0,"wrong":1},"w_mtgyyghs_m5icve":{"attempts":2,"correct":0,"wrong":2},"w_mtzwgmhv_x99xj8":{"attempts":2,"correct":1,"wrong":1},"w_mtoam5vu_kanulc":{"attempts":1,"correct":1,"wrong":0},"w_mtpqonw3_8j0wms":{"attempts":1,"correct":1,"wrong":0},"w_mtc8z9ap_n53dde":{"attempts":1,"correct":0,"wrong":1},"w_mtnoh4cl_ot1pfv":{"attempts":2,"correct":0,"wrong":2},"w_mttks8c7_osw971":{"attempts":1,"correct":1,"wrong":0},"w_mtz88exo_02gt6t":{"attempts":1,"correct":1,"wrong":0},"w_mtz7ag6l_o207cj":{"attempts":1,"correct":0,"wrong":1},"w_mtzwgmhv_wtk2k8":{"attempts":1,"correct":0,"wrong":1},"w_mtzvaje5_z5al6z":{"attempts":1,"correct":1,"wrong":0},"w_mtnqmk5e_70gnm2":{"attempts":1,"correct":0,"wrong":1},"w_mtgxi8gi_uib1f8":{"attempts":2,"correct":0,"wrong":2},"w_mtl5xt81_0roizk":{"attempts":1,"correct":0,"wrong":1},"w_mtb1ag17_rcs5l1":{"attempts":1,"correct":1,"wrong":0},"w_mtrun6zu_xc4lse":{"attempts":1,"correct":0,"wrong":1},"w_mtta6dpc_k4cfu8":{"attempts":2,"correct":2,"wrong":0},"w_mtdxtxpx_0hvwu2":{"attempts":1,"correct":0,"wrong":1},"w_mttw1l17_lxq7xb":{"attempts":1,"correct":0,"wrong":1},"w_mty4f5a5_vweisq":{"attempts":2,"correct":1,"wrong":1},"w_mtzwgmhv_wgitbd":{"attempts":1,"correct":0,"wrong":1},"w_mtgwakem_h491zx":{"attempts":1,"correct":0,"wrong":1},"w_mtzwgmhv_cj3m80":{"attempts":1,"correct":1,"wrong":0},"w_mtdx4jtq_ix5zur":{"attempts":1,"correct":0,"wrong":1},"w_mu51nult_6l696g":{"attempts":1,"correct":1,"wrong":0}};
 
-function load(k,d){try{const x=localStorage.getItem(k);return x?JSON.parse(x):d}catch(e){return d}}
-function save(){localStorage.setItem(WORD_KEY,JSON.stringify(words));localStorage.setItem(STAT_KEY,JSON.stringify(stats))}
-function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
-function id(){return "w_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8)}
-function getStats(w){return stats[w.id]||{attempts:0,correct:0,wrong:0}}
-function isWeak(w){let s=getStats(w);return s.wrong>=2 || (s.attempts>=2 && s.correct/s.attempts<.7)}
-function acc(w){let s=getStats(w);return s.attempts?Math.round(s.correct/s.attempts*100):0}
+// この版専用の保存領域。
+// 以前の「一覧が空になる」保存データを読み込まないようにしています。
+const WORD_KEY="longtext_ideal_layout_words_20260921";
+const STAT_KEY="longtext_ideal_layout_stats_20260921";
 
-function init(){
-  const oldWords=load(WORD_KEY,null), oldStats=load(STAT_KEY,null);
-  // 新しい保存領域が空でも、初期220語は必ず入れる
-  words=Array.isArray(oldWords)&&oldWords.length ? oldWords : INITIAL_WORDS.slice();
-  stats=(oldStats&&typeof oldStats==="object") ? oldStats : INITIAL_STATS;
-  // 旧保存領域に単語があれば追加（同じ英単語は重複させない）
-  const oldCandidates=[];
-  for(let k=0;k<localStorage.length;k++){
-    const key=localStorage.key(k);
-    if(!key || key===WORD_KEY || key===STAT_KEY) continue;
-    try{
-      const v=JSON.parse(localStorage.getItem(key));
-      if(Array.isArray(v)) oldCandidates.push(...v);
-      else if(v&&Array.isArray(v.words)) oldCandidates.push(...v.words);
-    }catch(e){}
-  }
-  const have=new Set(words.map(w=>String(w.en).toLowerCase()));
-  oldCandidates.forEach(x=>{
-    const en=String(x.en||x.word||"").trim(), ja=String(x.ja||x.meaning||"").trim();
-    if(en&&ja&&!have.has(en.toLowerCase())){words.push({id:x.id||id(),en,ja});have.add(en.toLowerCase())}
-  });
-  // 初期220語の成績をIDベースで引き継ぐ
-  if(oldStats && typeof oldStats==="object") stats=Object.assign({},INITIAL_STATS,oldStats);
-  save(); render();
+let words=[];
+let stats={};
+let quiz=[];
+let pos=0;
+let direction="enja";
+let answered=false;
+
+function esc(s){
+ return String(s).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+ });
 }
-function render(){
-  document.getElementById("count").textContent=words.length;
-  const weak=words.filter(isWeak);
-  document.getElementById("weakCount").textContent=weak.length;
-  document.getElementById("attemptCount").textContent=words.reduce((n,w)=>n+getStats(w).attempts,0);
-  const ranking=document.getElementById("ranking");
-  if(!weak.length) ranking.textContent="まだ苦手単語はありません。テストすると自動で分類されます。";
-  else ranking.innerHTML=weak.sort((a,b)=>acc(a)-acc(b)||getStats(b).wrong-getStats(a).wrong).slice(0,30).map((w,i)=>{
-    const s=getStats(w); return `<div class="word"><b>${i+1}. ${esc(w.en)}</b> — ${esc(w.ja)} <span class="tag">${acc(w)}% / ミス${s.wrong}</span></div>`
-  }).join("");
-  renderList();
+function escAttr(s){return String(s).replace(/\/g,"\\").replace(/'/g,"\\'");}
+function st(w){
+ if(!stats[w.id]) stats[w.id]={attempts:0,correct:0,wrong:0};
+ return stats[w.id];
+}
+function save(){
+ localStorage.setItem(WORD_KEY,JSON.stringify(words));
+ localStorage.setItem(STAT_KEY,JSON.stringify(stats));
+}
+function load(){
+ let sw=null,ss=null;
+ try{sw=JSON.parse(localStorage.getItem(WORD_KEY)||"null")}catch(e){}
+ try{ss=JSON.parse(localStorage.getItem(STAT_KEY)||"null")}catch(e){}
+ words=(Array.isArray(sw)&&sw.length>0)?sw:JSON.parse(JSON.stringify(INITIAL_WORDS));
+ stats=(ss&&typeof ss==="object")?ss:JSON.parse(JSON.stringify(INITIAL_STATS));
+ words.forEach(st);
+ save();
+}
+function isWeak(w){
+ let s=st(w);
+ return s.wrong>=2 || (s.attempts>0 && s.wrong/s.attempts>=0.3);
+}
+function renderHome(){
+ document.getElementById("total").textContent=words.length;
+ document.getElementById("weak").textContent=words.filter(isWeak).length;
+ document.getElementById("answered").textContent=words.reduce((n,w)=>n+st(w).attempts,0);
+
+ let r=words.filter(w=>st(w).attempts>0).sort((a,b)=>{
+   let x=st(a),y=st(b);
+   return y.wrong/y.attempts-x.wrong/x.attempts || y.wrong-x.wrong;
+ }).slice(0,8);
+
+ document.getElementById("ranking").innerHTML=r.length?r.map((w,i)=>{
+   let s=st(w),p=Math.round(s.wrong/s.attempts*100);
+   return '<div class="rank"><span class="name">'+(i+1)+'. '+esc(w.word)+' <span class="meaning">— '+esc(w.meaning)+'</span></span><span class="result">'+s.attempts+'回　正解 '+s.correct+' / 不正解 '+s.wrong+'</span></div>';
+ }).join(""):'<p class="muted">まだ回答履歴がありません。</p>';
 }
 function renderList(){
-  const q=document.getElementById("search").value.trim().toLowerCase();
-  const arr=words.filter(w=>!q||w.en.toLowerCase().includes(q)||w.ja.toLowerCase().includes(q));
-  document.getElementById("listCount").textContent=`（${arr.length}/${words.length}語）`;
-  document.getElementById("wordList").innerHTML=arr.map((w,i)=>{
-    const s=getStats(w), tag=isWeak(w)?'<span class="tag">苦手</span>':"";
-    return `<div class="word"><b>${i+1}. ${esc(w.en)}</b>${tag}<br>${esc(w.ja)}<br><span class="small">正答率 ${acc(w)}% ・ ${s.attempts}回回答 ・ ミス ${s.wrong}回</span><br><button class="danger" onclick="removeWord('${w.id}')">この単語を削除</button></div>`
-  }).join("") || '<div class="muted">該当する単語がありません。</div>';
+ let q=(document.getElementById("search").value||"").toLowerCase();
+ let a=words.filter(w=>(w.word+" "+w.meaning).toLowerCase().includes(q));
+ document.getElementById("count").textContent=words.length+"語";
+ document.getElementById("list").innerHTML=a.length?a.map((w,i)=>{
+   let s=st(w);
+   return '<div class="word"><div class="wordtop"><span class="worden">'+(i+1)+'. '+esc(w.word)+'</span><button class="danger" onclick="deleteWord(\''+escAttr(w.id)+'\')">削除</button></div><div class="wordja">'+esc(w.meaning)+'</div><div class="wordstat">出題 '+s.attempts+'回 / 正解 '+s.correct+' / 不正解 '+s.wrong+'</div></div>';
+ }).join(""):'<p class="muted" style="padding:15px">該当する単語はありません。</p>';
 }
-function addOne(){
-  const en=document.getElementById("en").value.trim(),ja=document.getElementById("ja").value.trim();
-  if(!en||!ja){alert("英単語と意味の両方を入力してください。");return}
-  if(words.some(w=>w.en.toLowerCase()===en.toLowerCase())){alert("その単語はすでに登録されています。");return}
-  words.push({id:id(),en,ja});save();document.getElementById("en").value="";document.getElementById("ja").value="";render();document.getElementById("wordList").scrollIntoView({behavior:"smooth"});
+function showPanel(id){
+ document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll(".navbtn").forEach(x=>x.classList.remove("active"));
+ let map={homePanel:"navHome",listPanel:"navList",testPanel:"navTest",settingsPanel:"navSettings"};
+ if(map[id]) document.getElementById(map[id]).classList.add("active");
+ if(id==="homePanel")renderHome();
+ if(id==="listPanel")renderList();
+ window.scrollTo(0,0);
 }
-function addBulk(){
-  const lines=document.getElementById("bulk").value.split(/\n/).map(x=>x.trim()).filter(Boolean);
-  let n=0; const have=new Set(words.map(w=>w.en.toLowerCase()));
-  lines.forEach(line=>{
-    const p=line.split(/\s*(?:\||\t|,|：)\s*/);
-    if(p.length>=2&&p[0]&&p.slice(1).join(" ").trim()&&!have.has(p[0].toLowerCase())){
-      words.push({id:id(),en:p[0].trim(),ja:p.slice(1).join(" ").trim()});have.add(p[0].toLowerCase());n++;
-    }
-  });
-  save();document.getElementById("bulk").value="";render();alert(`${n}語追加しました。`);
+function startTest(kind){
+ direction=document.getElementById("direction").value;
+ let a=words.slice();
+ if(kind==="weak")a=a.filter(isWeak);
+ if(kind==="wrong")a=a.filter(w=>st(w).wrong>0);
+ if(!a.length)return alert("該当する単語がありません。");
+ // 出題回数が少ない単語を優先。回数が同じならランダム。
+ a.sort((x,y)=>st(x).attempts-st(y).attempts || Math.random()-.5);
+ let n=document.getElementById("num").value;
+ quiz=a.slice(0,n==="all"?a.length:Number(n));
+ pos=0;
+ document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+ document.getElementById("quiz").classList.add("active");
+ document.querySelectorAll(".navbtn").forEach(x=>x.classList.remove("active"));
+ showQuestion();
+ window.scrollTo(0,0);
 }
-function removeWord(wid){
-  const w=words.find(x=>x.id===wid); if(!w)return;
-  if(!confirm(`「${w.en}」を削除しますか？`))return;
-  words=words.filter(x=>x.id!==wid);delete stats[wid];save();render();
-}
-function makeQuiz(arr){
-  if(!arr.length){alert("対象となる単語がありません。");return}
-  const n=document.getElementById("num").value==="all"?arr.length:Math.min(Number(document.getElementById("num").value),arr.length);
-  quiz=[...arr].sort(()=>Math.random()-.5).slice(0,n);pos=0;score=0;document.getElementById("quizCard").classList.remove("hidden");showQ();document.getElementById("quizCard").scrollIntoView({behavior:"smooth"});
-}
-function startAll(){mode="all";makeQuiz(words)}
-function startWeak(){mode="weak";makeQuiz(words.filter(isWeak))}
-function startWrong(){mode="wrong";makeQuiz(words.filter(w=>getStats(w).wrong>0))}
-function showQ(){
-  const w=quiz[pos],d=document.getElementById("direction").value;
-  document.getElementById("progress").textContent=`${pos+1} / ${quiz.length}`;
-  document.getElementById("score").textContent=`正解 ${score}`;
-  document.getElementById("regno").textContent=`登録No.${words.indexOf(w)+1}`;
-  document.getElementById("quizWord").textContent=d==="ej"?w.en:w.ja;
-  document.getElementById("answer").value="";
-  document.getElementById("answerArea").classList.add("hidden");
+function showQuestion(){
+ answered=false;
+ let w=quiz[pos];
+ document.getElementById("progress").textContent=(pos+1)+" / "+quiz.length;
+ document.getElementById("question").textContent=direction==="enja"?w.word:w.meaning;
+ document.getElementById("answer").textContent="";
 }
 function showAnswer(){
-  const w=quiz[pos],d=document.getElementById("direction").value;
-  document.getElementById("correctAnswer").textContent=d==="ej"?w.ja:w.en;
-  document.getElementById("answerArea").classList.remove("hidden");
+ let w=quiz[pos];
+ document.getElementById("answer").textContent=direction==="enja"?w.meaning:w.word;
+ answered=true;
 }
-function mark(ok){
-  const w=quiz[pos]; if(!stats[w.id])stats[w.id]={attempts:0,correct:0,wrong:0};
-  stats[w.id].attempts++; if(ok){stats[w.id].correct++;score++}else stats[w.id].wrong++;
-  save();render();pos++;
-  if(pos>=quiz.length){alert(`テスト終了！ ${score} / ${quiz.length} 正解`);document.getElementById("quizCard").classList.add("hidden")}
-  else showQ();
+function judge(ok){
+ if(!answered){showAnswer();return;}
+ let s=st(quiz[pos]);
+ s.attempts++;
+ if(ok)s.correct++;else s.wrong++;
+ save();
+ pos++;
+ if(pos>=quiz.length){alert("テスト終了！");finishQuiz();}
+ else showQuestion();
 }
-function resetStats(){if(!confirm("成績だけをリセットします。登録単語は残ります。"))return;stats={};save();render()}
-function exportData(){
-  const blob=new Blob([JSON.stringify({version:3,words,stats,exportedAt:new Date().toISOString()},null,2)],{type:"application/json"});
-  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="長文_知らない単語_バックアップ.json";a.click();URL.revokeObjectURL(a.href)
+function finishQuiz(){
+ document.getElementById("quiz").classList.remove("active");
+ document.getElementById("homePanel").classList.add("active");
+ document.getElementById("navHome").classList.add("active");
+ renderHome();
+ window.scrollTo(0,0);
 }
-document.getElementById("file").addEventListener("change",e=>{
-  const f=e.target.files[0];if(!f)return;const r=new FileReader();
-  r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.words))throw 0;words=d.words;stats=d.stats||{};save();render();alert(`${words.length}語を復元しました。`)}catch(x){alert("JSONの形式が正しくありません。")}};r.readAsText(f)
-});
-document.getElementById("search").addEventListener("input",renderList);
-init();
+function addOne(){
+ let w=document.getElementById("newWord").value.trim();
+ let m=document.getElementById("newMeaning").value.trim();
+ if(!w||!m)return alert("英単語と意味を入力してください。");
+ if(words.some(x=>x.word.toLowerCase()===w.toLowerCase()))return alert("同じ単語がすでに登録されています。");
+ let id="u_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+ words.push({id:id,word:w,meaning:m});
+ stats[id]={attempts:0,correct:0,wrong:0};
+ document.getElementById("newWord").value="";
+ document.getElementById("newMeaning").value="";
+ save();renderHome();
+ alert("登録しました。");
+}
+function addBulk(){
+ let text=document.getElementById("bulk").value.trim();
+ if(!text)return;
+ let n=0;
+ text.split(/\r?\n/).forEach(function(line){
+   let p=line.split(/\s*[|\t,]\s*/);
+   if(p.length<2)return;
+   let w=p[0].trim(),m=p.slice(1).join(" | ").trim();
+   if(!w||!m||words.some(x=>x.word.toLowerCase()===w.toLowerCase()))return;
+   let id="u_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+   words.push({id:id,word:w,meaning:m});
+   stats[id]={attempts:0,correct:0,wrong:0};
+   n++;
+ });
+ document.getElementById("bulk").value="";
+ save();renderHome();
+ alert(n+"語登録しました。");
+}
+function deleteWord(id){
+ if(!confirm("この単語を削除しますか？"))return;
+ words=words.filter(w=>w.id!==id);
+ delete stats[id];
+ save();renderHome();renderList();
+}
+function exportJSON(){
+ let out=words.map(w=>({id:w.id,en:w.word,ja:w.meaning}));
+ let blob=new Blob([JSON.stringify({version:9,words:out,stats:stats},null,2)],{type:"application/json"});
+ let a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);
+ a.download="長文_知らない単語_バックアップ.json";
+ a.click();
+}
+function importJSON(file){
+ if(!file)return;
+ let r=new FileReader();
+ r.onload=function(){
+  try{
+   let d=JSON.parse(r.result);
+   if(!Array.isArray(d.words))throw new Error();
+   words=d.words.map(function(w,i){return {
+     id:String(w.id||("import_"+i)),
+     word:String(w.en??w.word??""),
+     meaning:String(w.ja??w.meaning??"")
+   }}).filter(w=>w.word);
+   stats=d.stats||{};
+   words.forEach(st);
+   save();renderHome();renderList();
+   alert(words.length+"語を読み込みました。");
+  }catch(e){alert("JSONの読み込みに失敗しました。");}
+ };
+ r.readAsText(file);
+}
+load();
+renderHome();
+renderList();
 </script>
-</body></html>
+</body>
+</html>
