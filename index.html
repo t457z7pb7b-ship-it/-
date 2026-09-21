@@ -163,7 +163,7 @@ function esc(s){
   return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
  });
 }
-function escAttr(s){return String(s).replace(/\/g,"\\").replace(/'/g,"\\'");}
+function escAttr(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,'\\\'');}
 function st(w){
  if(!stats[w.id]) stats[w.id]={attempts:0,correct:0,wrong:0};
  return stats[w.id];
